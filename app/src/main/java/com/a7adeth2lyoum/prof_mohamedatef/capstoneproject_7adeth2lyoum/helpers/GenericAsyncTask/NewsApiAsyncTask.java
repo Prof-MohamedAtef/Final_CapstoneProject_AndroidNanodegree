@@ -8,6 +8,7 @@ import android.util.Log;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Helpers.InsertClass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -326,10 +327,10 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
             articlesEntity = new ArticlesEntity(AUTHOR_STR, TITLE_STR, DESCRIPTION_STR, URL_STR, URL_TO_IMAGE_STR, PUBLISHED_AT_STR, Name_STR);
             list.add(articlesEntity);
         }
-//        if (list.size()>0){
-//            InsertClass insertClass=new InsertClass();
-//            insertClass.TryInsert1(mDatabase,list,onNewsTaskCompleted, KEY);
-//        }
+        if (list.size()>0){
+            InsertClass insertClass=new InsertClass();
+            insertClass.TryInsert1(mDatabase,list,onNewsTaskCompleted, KEY);
+        }
         return list;
     }
 
