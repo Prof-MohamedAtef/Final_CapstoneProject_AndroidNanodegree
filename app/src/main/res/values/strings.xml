@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">7adeth AlYoum</string>
+
+    <string name="facebook_app_id">383082655772408</string>
+    <string name="fb_login_protocol_scheme">fb383082655772408</string>
+    <string name="loading">Loading ..</string>
+    <string name="openDrawer">Navigation View Closed</string>
+    <string name="closeDrawer">Navigation View</string>
+    <string name="uploading">Uploading...</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="percent">%</string>
+    <string name="failed">Failed</string>
+    <string name="unavailable">Un Available</string>
+    <string name="not_identified">Not Identified</string>
+    <string name="author_not_identified">Author Not Identified</string>
+
+    <string name="okay">It is Okay</string>
+    <string name="date">date_time</string>
+    <string name="clicked">Clicked</string>
+    <string name="author">Author_name</string>
+    <string name="category">Category</string>
+    <string name="Article_cover">Article Image Header</string>
+    <string name="TitleHint">Report Title</string>
+    <string name="app_icon">App Icon</string>
+    <string name="DescriptionHint">Description</string>
+    <string name="Photo">Photo</string>
+    <string name="canceled">Canceled</string>
+    <string name="chooser_Intent_select_or_take_picture">Post Image via</string>
+    <string name="title_write_external_storage_permission">Write External</string>
+    <string name="text_write_external_permission">This app will Write on The External Storage of this device</string>
+    <string name="ok">Okay</string>
+    <string name="appwidget_text">WidgetExample</string>
+    <string name="no_internet">Internet Disabled</string>
+    <string name="reload">Internet Disabled</string>
+    <string name="source_icon">Source Icon</string>
+    <string name="retry">Retry</string>
+    <string name="loadedsuccess">Loaded Successfully</string>
+    <string name="tap2retry">Please, Press to retry!</string>
+    <string name="recording_saved_successfully">Recording saved successfully</string>
+
+
+    <!--drawer-->
+    <string name="publish">Publish</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="launch_camera">Launch Camera</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="profile_img">User Profile Image</string>
+    <string name="muted">Audio Muted</string>
+    <string name="urgent_news">Urgent</string>
+    <string name="political_news">Politics</string>
+    <string name="art_cultutral_news">Arts and Culture</string>
+    <string name="sports_news">Sports</string>
+    <string name="reports_news">Reports</string>
+    <string name="read_more">read more</string>
+    <string name="food_news">food</string>
+    <string name="famiy_news">family</string>
+    <string name="heritage_news">heritage</string>
+    <string name="opinions_news">opinions</string>
+    <string name="technology_news">technology</string>
+    <string name="business_news">business</string>
+    <string name="logout">Log Out</string>
+</resources>

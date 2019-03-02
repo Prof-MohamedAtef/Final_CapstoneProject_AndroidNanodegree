@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_authentication">10dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="fab_press_translation_z">12dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="detail_appbar_height">320dp</dimen>
+    <dimen name="audio_layout_height">200dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!--<integer name="fragment_details_background_image_fade_millis">1000</integer>-->
+    <dimen name="card_elevation">1dp</dimen>
+    <dimen name="card_margin">5dp</dimen>
+    <dimen name="top_margin">5dp</dimen>
+    <dimen name="text_size">10sp</dimen>
+    <dimen name="card_album_radius">0dp</dimen>
+    <dimen name="list_toolbar_side_margin">4dp</dimen>
+    <dimen name="list_side_margin">3dp</dimen>
+    <dimen name="AppBarLayout_height">200dp</dimen>
+    <dimen name="Overlap_top">240dp</dimen>
+    <dimen name="text_padding">3dp</dimen>
+
+</resources>

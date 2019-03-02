@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/publish"
+            android:checked="false"
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:title="@string/publish" />
+        <!--android:icon="@drawable/news"-->
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/urgent"
+            android:checked="false"
+            android:title="@string/urgent_news" />
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/politics"
+            android:checked="false"
+            android:title="@string/political_news" />
+        <!--android:icon="@drawable/news"-->
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/art_culture"
+            android:checked="false"
+            android:title="@string/art_cultutral_news" />
+        <!--android:icon="@drawable/stadiums"-->
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/sports"
+            android:checked="false"
+            android:title="@string/sports_news" />
+        <!--android:icon="@drawable/groups"-->
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/reports"
+            android:checked="false"
+            android:title="@string/reports_news" />
+        <!--android:icon="@drawable/stadiums"-->
+    </group>
+    <View
+        android:id="@+id/view_footer_post2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/divider" />
+    <group android:checkableBehavior="all">
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/technology"
+            android:checked="false"
+            android:title="@string/technology_news" />
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/business"
+            android:checked="false"
+            android:title="@string/business_news" />
+        <!--android:icon="@drawable/stadiums"-->
+    </group>
+    <View
+        android:id="@+id/view_footer_post"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/divider"/>
+    <group android:checkableBehavior="all">
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/food"
+            android:checked="false"
+            android:title="@string/food_news" />
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/family"
+            android:checked="false"
+            android:title="@string/famiy_news" />
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/heritage"
+            android:checked="false"
+            android:title="@string/heritage_news" />
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/opinions"
+            android:checked="false"
+            android:title="@string/opinions_news" />
+    </group>
+    <View
+        android:id="@+id/view_footer_post3"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/divider"/>
+    <group android:checkableBehavior="all">
+        <item
+            android:state_focused="true"
+            android:state_pressed="true"
+            android:id="@+id/logout"
+            android:checked="false"
+            android:title="@string/logout" />
+        <!--android:icon="@drawable/stadiums"-->
+    </group>
+</menu>

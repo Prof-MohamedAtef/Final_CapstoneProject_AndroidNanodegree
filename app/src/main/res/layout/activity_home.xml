@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.HomeActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MergeRootFrame"
+        android:background="@color/colorPrimary"
+        android:id="@+id/container_frame">
+</FrameLayout>
