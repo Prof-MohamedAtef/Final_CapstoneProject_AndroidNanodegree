@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/scrollView"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true"
+xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textColor="@color/primaryLightColor"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/author"
+            android:textStyle="bold"
+            android:textColor="@color/primaryLightColor"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:id="@+id/date_publish"
+                android:gravity="left|center_vertical"
+                android:textSize="@dimen/text_size"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="date"/>
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text"
+                android:id="@+id/source_name"
+                android:gravity="right|center_vertical"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="source"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/description"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+        <LinearLayout
+            android:textStyle="bold"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4">
+                <ImageView
+                    android:contentDescription="@string/Article_cover"
+                    android:id="@+id/image"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/read_more"
+                android:textStyle="bold"
+                android:textColor="@color/primaryLightColor"
+                android:gravity="right|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="@string/read_more"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+</LinearLayout>
+</ScrollView>

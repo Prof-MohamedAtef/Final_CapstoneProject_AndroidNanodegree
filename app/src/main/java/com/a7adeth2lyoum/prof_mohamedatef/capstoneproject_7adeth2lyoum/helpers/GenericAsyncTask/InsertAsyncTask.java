@@ -42,6 +42,7 @@ public class InsertAsyncTask extends AsyncTask<Void, Void, Boolean> {
                     Inserted[0] =IsArrayInserted();
                     if (Inserted[0]){
                         Inserted[0] =true;
+                        articlesRoomList.removeObservers((LifecycleOwner) onNewsTaskCompleted);
                     }else {
                         Inserted[0] =false;
                     }
@@ -49,6 +50,7 @@ public class InsertAsyncTask extends AsyncTask<Void, Void, Boolean> {
                     Inserted[0] =IsArrayInserted();
                     if (Inserted[0]){
                         Inserted[0] =true;
+                        articlesRoomList.removeObservers((LifecycleOwner) onNewsTaskCompleted);
                     }else {
                         Inserted[0] =false;
                     }

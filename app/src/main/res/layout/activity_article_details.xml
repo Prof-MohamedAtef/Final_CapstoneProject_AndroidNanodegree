@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/scrollView"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ArticleDetails"
+    android:screenOrientation="landscape"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:weightSum="6"
+    tools:context="journal.nanodegree.capstone.prof.journal_capstonnanodegree.Activities.ArticleDetailsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/Article_MainImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/Audio_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <FrameLayout
+        android:id="@+id/Article_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:scaleType="centerInside"/>
+</LinearLayout>
+</ScrollView>
+
+
+

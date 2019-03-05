@@ -2,7 +2,6 @@ package com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -25,26 +24,27 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Config;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.URL_KEY;
+import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Adapter.NewsApiRecyclerAdapter.NOTHING_TODO;
+
 
 /**
- * Created by Prof-Mohamed Atef on 1/3/2019.
+ * Created by Prof-Mohamed Atef on 1/11/2019.
  */
 
-public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecyclerAdapter.ViewHOlder> implements Serializable{
-    ArticlesEntity articlesEntity;
-    private final String LOG_TAG = NewsApiRecyclerAdapter.class.getSimpleName();
-    private Cursor mCursor;
+public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecyclerAdapter.ViewHOlder> implements Serializable {
+
+    private final String LOG_TAG = WebHoseRecyclerAdapter.class.getSimpleName();
     Context mContext;
-    List<ArticlesEntity> feedItemList;
+    ArrayList<ArticlesEntity> feedItemList;
     boolean TwoPane;
-    //audio
+
     protected Chronometer chronometerTimer;
     protected SeekBar seekBar;
     protected LinearLayout linearLayoutRecorder;
@@ -54,10 +54,8 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     private int lastProgress = 0;
     private Handler mHandler = new Handler();
     private boolean isPlaying = false;
-    public static String NOTHING_TODO="NoTHING_TODO";
-    private String NULL_KEY="null";
 
-    public NewsApiRecyclerAdapter(Context mContext, List<ArticlesEntity> feedItemList, boolean twoPane) {
+    public WebHoseRecyclerAdapter(Context mContext, ArrayList<ArticlesEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         TwoPane = twoPane;
@@ -72,67 +70,47 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHOlder holder, final int position) {
-        if (feedItemList != null && feedItemList.size() > 0) {
-            final ArticlesEntity feedItem = feedItemList.get(position);
-            if (feedItem.getAUTHOR() != null && feedItem.getTITLE() != null) {
-                if (feedItem.getAUTHOR().equals(NULL_KEY)) {
-                    holder.Author.setText(mContext.getResources().getString(R.string.author_not_identified));
-                } else {
-                    holder.Author.setText(feedItem.getAUTHOR());
-                }
-                if (feedItem.getTITLE().equals(NULL_KEY)) {
-                    holder.Title.setText(mContext.getResources().getString(R.string.not_identified));
-                } else {
-                    holder.Title.setText(feedItem.getTITLE());
-                }
-                if (feedItem.getDESCRIPTION() != null && feedItem.getSOURCE_NAME() != null) {
-                    if (feedItem.getDESCRIPTION().equals(NULL_KEY)) {
-                        holder.Description.setText(mContext.getResources().getString(R.string.not_identified));
-                    } else {
-                        holder.Description.setText(feedItem.getDESCRIPTION());
-                    }
-                    if (feedItem.getSOURCE_NAME().equals(NULL_KEY)) {
-                        holder.SourceName.setText(mContext.getResources().getString(R.string.not_identified));
-                    } else {
-                        holder.SourceName.setText(feedItem.getSOURCE_NAME());
-                    }
-                    if (feedItem.getPUBLISHED_AT() != null && feedItem.getARTICLE_URL() != null && feedItem.getIMAGE_URL() != null) {
-                        if (feedItem.getPUBLISHED_AT().equals(NULL_KEY)) {
-                            holder.Date.setText(mContext.getResources().getString(R.string.not_identified));
-                        } else {
-                            holder.Date.setText(feedItem.getPUBLISHED_AT());
+    public void onBindViewHolder(@NonNull ViewHOlder holder, final int position) {
+        final ArticlesEntity feedItem = feedItemList.get(position);
+        if (feedItem!=null){
+            if (feedItem.getAUTHOR()!=null&&feedItem.getTITLE()!=null){
+                holder.Author.setText(feedItem.getAUTHOR());
+                holder.Title.setText(feedItem.getTITLE());
+                if (feedItem.getDESCRIPTION()!=null&&feedItem.getSOURCE_NAME()!=null){
+                    holder.Description.setText(feedItem.getDESCRIPTION());
+                    holder.SourceName.setText(feedItem.getSOURCE_NAME());
+                    String ImagePath=feedItem.getIMAGE_URL().toString();
+                    if (feedItem.getPUBLISHED_AT()!=null&&feedItem.getIMAGE_URL()!=null){
+                        holder.Date.setText(feedItem.getPUBLISHED_AT());
+                        if (ImagePath!=null&&!ImagePath.equals("")){
+                            Picasso.with(mContext).load(ImagePath)
+                                    .error(R.drawable.stanly)
+                                    .into(holder.Image);
+                        }else {
+                            Picasso.with(mContext).load(R.drawable.stanly).into(holder.Image);
+                            Log.v(LOG_TAG, "No URL To Image Returned" );
                         }
-                        Picasso.with(mContext).load(feedItem.getIMAGE_URL())
-                                .error(R.drawable.breaking_news)
-                                .into(holder.Image);
-                    } else {
-                        holder.Date.setText("");
-                    }
-                } else {
+                    }else {holder.Date.setText("");}
+                }else {
                     holder.Description.setText("");
                     holder.SourceName.setText("");
                 }
-            } else {
+            }else {
                 holder.Author.setText("");
                 holder.Title.setText("");
             }
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // if two pane ---- > Web View
-                    // if PHone --------> Web View
-                    if (Config.ActivityNum != 0 && feedItemList != null) {
-                        ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(position), TwoPane, position);
-                    }
-                    if (Config.ActivityNum == 0) {
+                    ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(position),TwoPane, position);
+                    if (Config.ActivityNum==0){
                         if (feedItem.getARTICLE_URL() != null) {
-                            String url = feedItem.getARTICLE_URL();
-                            Intent intent = new Intent(mContext, WebViewerActivity.class);
-                            intent.putExtra(URL_KEY, url);
+                            String url=feedItem.getARTICLE_URL();
+                            Intent intent=new Intent(mContext,WebViewerActivity.class);
+                            intent.putExtra(URL_KEY,url);
                             mContext.startActivity(intent);
                         }
-                    } else {
+                    }else {
                         /*
                         Do nothing
                          */
@@ -140,19 +118,20 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
                     }
                 }
             });
-        }
-        holder.imageViewPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isPlaying && fileName != null) {
-                    isPlaying = true;
-                    startPlaying();
-                } else {
-                    isPlaying = false;
-                    stopPlaying();
+
+            holder.imageViewPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isPlaying&&fileName!=null){
+                        isPlaying=true;
+                        startPlaying();
+                    }else {
+                        isPlaying=false;
+                        stopPlaying();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -161,14 +140,13 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     }
 
     class ViewHOlder extends RecyclerView.ViewHolder {
-
-        protected LinearLayout linearLayout;
         protected TextView Title;
         protected TextView Author;
         protected TextView Date;
         protected TextView Description;
         protected TextView SourceName;
         protected ImageView Image;
+        protected LinearLayout linearLayout;
         protected WebView browser;
         protected ImageView imageViewPlay;
         public ViewHOlder(View converview) {
@@ -192,14 +170,14 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
             this.SourceName= (TextView) converview.findViewById(R.id.source_name);
             this.Image =(ImageView)converview.findViewById(R.id.image);
             this.linearLayout=(LinearLayout)converview.findViewById(R.id.linearLayout);
-//            this.browser= (WebView) converview.findViewById(R.id.webview);
+            this.browser= (WebView) converview.findViewById(R.id.webview);
             if (Config.ActivityNum==0){
-//                initializeAudioPlayer();
+                initializeAudioPlayer();
             }else {
                 linearLayoutPlay.setVisibility(View.GONE);
                 linearLayoutRecorder.setVisibility(View.GONE);
             }
-            if (Config.FragmentNewsApiNum==11){
+            if (Config.FragmentWebHoseApiNum==22){
                 Image.setVisibility(View.GONE);
             }
         }
@@ -208,7 +186,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-//            seekUpdation();
+            seekUpdation();
         }
     };
 

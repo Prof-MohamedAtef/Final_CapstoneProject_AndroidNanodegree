@@ -41,7 +41,7 @@ public class LatestNewsFireBJobService extends com.firebase.jobdispatcher.JobSer
         mBackgroundTask=new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
-                GenericConnect genericConnect=new GenericConnect(Config.mDatabase,Config.Listener,Config.mContext,params,CategoryName);
+                GenericConnect genericConnect=new GenericConnect(Config.mDatabase,Config.onNewsTaskCompleted,Config.mContext,params,CategoryName);
                 return genericConnect.executeConnection();
             }
 

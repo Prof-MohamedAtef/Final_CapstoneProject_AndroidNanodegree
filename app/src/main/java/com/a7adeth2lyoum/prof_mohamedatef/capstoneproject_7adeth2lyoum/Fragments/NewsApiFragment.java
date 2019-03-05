@@ -60,11 +60,9 @@ SnackBarLauncher{
     LinearLayout LinearUiIdentifier;
     private Cursor cursor;
     private ArrayList<ArticlesEntity> UrgentArticlesList;
-
     private String KEY_POSITION="KEY_POSITION";
     RecyclerView.LayoutManager mLayoutManager;
     public static String KEY_Urgent="KEY_Urgent";
-
     private GridLayoutManager layoutManager;
     private String NewsApiFrag_KEY="NewsApiFrag_KEY";
     private ArticlesViewModel articlesViewModel;
@@ -167,7 +165,8 @@ SnackBarLauncher{
         Config.mDatabase=mDatabase;
         Config.CategoryName=KEY_Urgent;
         Config.mContext=getActivity();
-        Config.Listener=this;
+        Config.NewsApiFragment=this;
+        Config.onNewsTaskCompleted=this;
         connectToApi();
         JobDispatcherReminder.scheduleFetchReminder(getActivity());
     }

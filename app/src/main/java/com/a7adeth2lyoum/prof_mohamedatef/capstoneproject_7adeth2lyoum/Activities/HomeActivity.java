@@ -188,6 +188,7 @@ NoInternetFragment.onReloadInternetServiceListener{
         }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 if(menuItem.isChecked()) menuItem.setChecked(false);
@@ -205,75 +206,75 @@ NoInternetFragment.onReloadInternetServiceListener{
                         return true;
                     case R.id.politics:
                         bundle.putString(ArticleType,POLITICS);
-//                        Intent intent2=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
-//                        intent2.putExtras(bundle);
+                        Intent intent2=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
+                        intent2.putExtras(bundle);
 //                        startActivity(intent2);
-//                        startExplodeTransition(intent2);
+                        startExplodeTransition(intent2);
                         return true;
                     case R.id.art_culture:
-//                        bundle.putString(ArticleType,ARTS);
-//                        Intent intent3=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
-//                        intent3.putExtras(bundle);
-//                        startExplodeTransition(intent3);
+                        bundle.putString(ArticleType,ARTS);
+                        Intent intent3=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
+                        intent3.putExtras(bundle);
+                        startExplodeTransition(intent3);
 //                        startActivity(intent3);
 
                         return true;
                     case R.id.sports:
-//                        bundle.putString(ArticleType,SPORTS);
-//                        Intent intent4=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent4.putExtras(bundle);
+                        bundle.putString(ArticleType,SPORTS);
+                        Intent intent4=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent4.putExtras(bundle);
 //                        startActivity(intent4);
-//                        startExplodeTransition(intent4);
+                        startExplodeTransition(intent4);
                         return true;
                     case R.id.reports:
-//                        bundle.putString(ArticleType,REPORTS);
-//                        Intent intent5=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent5.putExtras(bundle);
+                        bundle.putString(ArticleType,REPORTS);
+                        Intent intent5=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent5.putExtras(bundle);
 //                        startActivity(intent5);
-//                        startExplodeTransition(intent5);
+                        startExplodeTransition(intent5);
                         // get data from content provider or firebase
                         return true;
                     case R.id.food:
-//                        bundle.putString(ArticleType,FOOD);
-//                        Intent intent1=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent1.putExtras(bundle);
+                        bundle.putString(ArticleType,FOOD);
+                        Intent intent1=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent1.putExtras(bundle);
 //                        startActivity(intent1);
-//                        startExplodeTransition(intent1);
+                        startExplodeTransition(intent1);
                         return true;
                     case R.id.family:
-//                        bundle.putString(ArticleType,FAMILY);
-//                        Intent intent6=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent6.putExtras(bundle);
+                        bundle.putString(ArticleType,FAMILY);
+                        Intent intent6=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent6.putExtras(bundle);
 //                        startActivity(intent6);
-//                        startExplodeTransition(intent6);
+                        startExplodeTransition(intent6);
                         return true;
                     case R.id.heritage:
-//                        bundle.putString(ArticleType,HERITAGE);
-//                        Intent intent7=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent7.putExtras(bundle);
+                        bundle.putString(ArticleType,HERITAGE);
+                        Intent intent7=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent7.putExtras(bundle);
 //                        startActivity(intent7);
-//                        startExplodeTransition(intent7);
+                        startExplodeTransition(intent7);
                         return true;
                     case R.id.opinions:
-//                        bundle.putString(ArticleType,OPINIONS);
-//                        Intent intent8=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
-//                        intent8.putExtras(bundle);
+                        bundle.putString(ArticleType,OPINIONS);
+                        Intent intent8=new Intent(getApplicationContext(),ArticleTypesListActivity.class);
+                        intent8.putExtras(bundle);
 //                        startActivity(intent8);
-//                        startExplodeTransition(intent8);
+                        startExplodeTransition(intent8);
                         return true;
                     case R.id.technology:
-//                        bundle.putString(ArticleType,TECHNOLOGY);
-//                        Intent intent9=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent9.putExtras(bundle);
+                        bundle.putString(ArticleType,TECHNOLOGY);
+                        Intent intent9=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent9.putExtras(bundle);
 //                        startActivity(intent9);
-//                        startExplodeTransition(intent9);
+                        startExplodeTransition(intent9);
                         return true;
                     case R.id.business:
-//                        bundle.putString(ArticleType,BUSINESS);
-//                        Intent intent10=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
-//                        intent10.putExtras(bundle);
+                        bundle.putString(ArticleType,BUSINESS);
+                        Intent intent10=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
+                        intent10.putExtras(bundle);
 //                        startActivity(intent10);
-//                        startExplodeTransition(intent10);
+                        startExplodeTransition(intent10);
 //                        webServiceNewsApi.putString("business","https://newsapi.org/v2/top-headlines?country=eg&category=business&apiKey="+apiKey);
 //                        newsApiFragment.setArguments(webServiceNewsApi);
 //                        getSupportFragmentManager().beginTransaction()
@@ -400,21 +401,21 @@ NoInternetFragment.onReloadInternetServiceListener{
 
     @Override
     public void onNewsApiArticleSelected(OptionsEntity optionsEntity, boolean TwoPane, int position) {
-//        Intent intent = new Intent(this, ArticleTypesListActivity.class);
-//        Config.position=position;
-//        if (TwoPane){
-//            intent.putExtra("TwoPane",TwoPane);
-//            intent.putExtra("optionsEntity", optionsEntity);
-//            intent.putExtra("position", position);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            this.startActivity(intent);
-//        }else {
-//            intent.putExtra("TwoPane",TwoPane);
-//            intent.putExtra("optionsEntity", optionsEntity);
-//            intent.putExtra("position", position);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            this.startActivity(intent);
-//        }
+        Intent intent = new Intent(this, ArticleTypesListActivity.class);
+        Config.position=position;
+        if (TwoPane){
+            intent.putExtra("TwoPane",TwoPane);
+            intent.putExtra("optionsEntity", optionsEntity);
+            intent.putExtra("position", position);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+        }else {
+            intent.putExtra("TwoPane",TwoPane);
+            intent.putExtra("optionsEntity", optionsEntity);
+            intent.putExtra("position", position);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+        }
     }
 
     @Override

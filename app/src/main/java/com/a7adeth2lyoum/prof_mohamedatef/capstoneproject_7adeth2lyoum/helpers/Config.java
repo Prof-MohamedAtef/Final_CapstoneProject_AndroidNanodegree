@@ -10,7 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.ArticlesMasterListFragment;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.NewsApiFragment;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.GenericAsyncTask.NewsApiAsyncTask;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 
@@ -50,7 +52,9 @@ public class Config {
     public static int RecyclerPosition;
     public static String CategoryName;
     public static Application application;
-    public static NewsApiFragment Listener;
+    public static NewsApiFragment NewsApiFragment;
+    public static ArticlesMasterListFragment ArticlesMasterListFragment;
     public static AppDatabase mDatabase;
     public static LinearLayout LinearUiIdentifier;
+    public static NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted;
 }
