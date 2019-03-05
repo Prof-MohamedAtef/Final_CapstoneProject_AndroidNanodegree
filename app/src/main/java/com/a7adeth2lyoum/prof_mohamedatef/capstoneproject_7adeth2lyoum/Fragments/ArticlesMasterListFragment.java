@@ -1,33 +1,22 @@
 package com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments;
 
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.LiveData;
-import android.content.BroadcastReceiver;
 import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Adapter.NewsApiRecyclerAdapter;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Adapter.WebHoseRecyclerAdapter;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.BuildConfig;
@@ -41,14 +30,8 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.O
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Dao.ArticlesDao;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.CATEGORY_NAME;
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.NEWSAPI_KEY;
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.TwoPANEExtras_KEY;
@@ -65,7 +48,6 @@ public class ArticlesMasterListFragment extends Fragment implements
 //        ,
 //        FirebaseReportsAsyncTask.OnDownloadCompleted
 {
-
 
     private AppDatabase mRoomDatabase;
     private AppExecutors mAppExecutors;

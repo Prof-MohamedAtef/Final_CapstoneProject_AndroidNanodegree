@@ -4,14 +4,10 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-
-import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.NewsApiFragment;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.NewsApiFragment.KEY_Urgent;
 
 
@@ -54,6 +50,14 @@ public class InsertAsyncTask extends AsyncTask<Void, Void, Boolean> {
                     }else {
                         Inserted[0] =false;
                     }
+                }
+            }else {
+                Inserted[0] =IsArrayInserted();
+                if (Inserted[0]){
+                    Inserted[0] =true;
+                    articlesRoomList.removeObservers((LifecycleOwner) onNewsTaskCompleted);
+                }else {
+                    Inserted[0] =false;
                 }
             }
         });
@@ -123,13 +127,16 @@ public class InsertAsyncTask extends AsyncTask<Void, Void, Boolean> {
             if (aBoolean == true) {
                 onNewsTaskCompleted.onNewsApiTaskCompleted(ArticlesEntityList_x);
             }
+//            else {
+//                onNewsTaskCompleted.onNewsApiTaskCompleted(ArticlesEntityList);
+//            }
         }
     }
 
-    public InsertAsyncTask(AppDatabase appDatabase, ArrayList<ArticlesEntity> moviesRoomEntityList, NewsApiAsyncTask.OnNewsTaskCompleted onTaskCompletes, String Key_Type) {
+    public InsertAsyncTask(AppDatabase appDatabase, ArrayList<ArticlesEntity> articlesRoomEntityList, NewsApiAsyncTask.OnNewsTaskCompleted onTaskCompletes, String Key_Type) {
         super();
         this.appDatabase=appDatabase;
-        this.ArticlesEntityList = moviesRoomEntityList;
+        this.ArticlesEntityList = articlesRoomEntityList;
         this.onNewsTaskCompleted=onTaskCompletes;
         this.CategoryKey=Key_Type;
         articlesEntity=new ArticlesEntity();

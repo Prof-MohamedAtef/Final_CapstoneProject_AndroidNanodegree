@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,10 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UrgentNewsAdapter extends RecyclerView.Adapter<UrgentNewsAdapter.ViewHOlder> implements Serializable {
 
     Context mContext;
-    ArrayList<ArticlesEntity> feedItemList;
+    List<ArticlesEntity> feedItemList;
     boolean TwoPane;
 
-    public UrgentNewsAdapter(Context mContext, ArrayList<ArticlesEntity> feedItemList, boolean twoPane) {
+    public UrgentNewsAdapter(Context mContext, List<ArticlesEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
         this.feedItemList = feedItemList;
         TwoPane = twoPane;
