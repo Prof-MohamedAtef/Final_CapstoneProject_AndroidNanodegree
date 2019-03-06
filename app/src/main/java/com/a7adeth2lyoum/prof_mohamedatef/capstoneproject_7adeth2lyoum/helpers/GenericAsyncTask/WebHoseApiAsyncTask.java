@@ -4,14 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
-
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Helpers.InsertClass;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +26,8 @@ import java.util.ArrayList;
 public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<ArticlesEntity>> {
 
     private final String LOG_TAG = WebHoseApiAsyncTask.class.getSimpleName();
+    private final AppDatabase mDatabase;
+    private final String KEY;
 
     private ProgressDialog dialog;
     public JSONObject ArticlesJson;
@@ -338,6 +339,10 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
             articlesEntity = new ArticlesEntity(AUTHOR_STR, URL_STR, LANGUAGE_STR, SITE_STR, SECTIONTITLE_STR, TITLE_STR, TITLEFULL_STR, PUBLISHED_STR, MAINIMAGE_STR,TEXT_STR);
             list.add(articlesEntity);
         }
+        if (list.size()>0){
+            InsertClass insertClass=new InsertClass();
+            insertClass.TryInsertWebHoseAPIData(mDatabase,list,onWebHoseTaskCompleted, KEY);
+        }
         return list;
     }
 
@@ -355,10 +360,12 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
     public OnWebHoseTaskCompleted onWebHoseTaskCompleted;
     Context mContext;
 
-    public WebHoseApiAsyncTask(OnWebHoseTaskCompleted onWebHoseTaskCompleted, Context mContext) {
+    public WebHoseApiAsyncTask(AppDatabase database, OnWebHoseTaskCompleted onWebHoseTaskCompleted , Context context, String Category) {
         this.onWebHoseTaskCompleted = onWebHoseTaskCompleted;
-        this.mContext = mContext;
-        dialog=new ProgressDialog(mContext);
+        this.mContext = context;
+        dialog = new ProgressDialog(context);
+        this.mDatabase=database;
+        this.KEY=Category;
     }
 
     @Override

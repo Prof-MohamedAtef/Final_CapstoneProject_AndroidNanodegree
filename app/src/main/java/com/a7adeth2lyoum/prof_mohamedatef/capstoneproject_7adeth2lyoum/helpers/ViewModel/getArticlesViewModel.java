@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Prof-Mohamed Atef on 2/24/2019.
  */
 
-public class CheckUrgentArticlesStatusViewModel extends ViewModel {
+public class getArticlesViewModel extends ViewModel {
 
     private LiveData<List<ArticlesEntity>> Category;
 
@@ -21,7 +21,7 @@ public class CheckUrgentArticlesStatusViewModel extends ViewModel {
     }
 
 
-    public CheckUrgentArticlesStatusViewModel(AppDatabase mDatabase, String category) {
+    public getArticlesViewModel(AppDatabase mDatabase, String category) {
         Category=mDatabase.articlesDao().getArticlesDataByCategory(category);
     }
 }

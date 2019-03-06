@@ -6,7 +6,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -34,7 +33,7 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.R
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Dao.ArticlesDao;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.SessionManagement;
-import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.ArticlesViewModel;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.UrgentArticlesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ SnackBarLauncher{
     public static String KEY_Urgent="KEY_Urgent";
     private GridLayoutManager layoutManager;
     private String NewsApiFrag_KEY="NewsApiFrag_KEY";
-    private ArticlesViewModel articlesViewModel;
+    private UrgentArticlesViewModel urgentArticlesViewModel;
     private AppDatabase mDatabase;
     private AppExecutors mAppExecutors;
     private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
@@ -73,15 +72,15 @@ SnackBarLauncher{
 
 
     public void initializeViewModel(){
-        articlesViewModel = ViewModelProviders.of(getActivity()).get(ArticlesViewModel.class);
-        articlesViewModel.setCategory(KEY_Urgent);
-        if (articlesViewModel!=null){
-            articlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().observe((LifecycleOwner) getActivity(), new Observer<List<ArticlesEntity>>() {
+        urgentArticlesViewModel = ViewModelProviders.of(getActivity()).get(UrgentArticlesViewModel.class);
+        urgentArticlesViewModel.setCategory(KEY_Urgent);
+        if (urgentArticlesViewModel !=null){
+            urgentArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().observe((LifecycleOwner) getActivity(), new Observer<List<ArticlesEntity>>() {
                 @Override
                 public void onChanged(@Nullable List<ArticlesEntity> articleEntities) {
                     if (articleEntities!=null){
                         if (articleEntities.size()>0){
-                            articlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().removeObserver(this::onChanged);
+                            urgentArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().removeObserver(this::onChanged);
                             UrgentArticlesListLiveData=mDatabase.articlesDao().getArticlesDataByCategory(KEY_Urgent);
                             UrgentArticlesListLiveData.observe((LifecycleOwner)getActivity(),UrgentList -> {
                                 if (UrgentList.size()>0){

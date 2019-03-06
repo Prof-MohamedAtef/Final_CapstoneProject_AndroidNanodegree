@@ -24,6 +24,6 @@ public class ArticlesViewModelFactory extends ViewModelProvider.NewInstanceFacto
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new CheckUrgentArticlesStatusViewModel( mDatabase, Category);
+        return (T) new getArticlesViewModel( mDatabase, Category);
     }
 }

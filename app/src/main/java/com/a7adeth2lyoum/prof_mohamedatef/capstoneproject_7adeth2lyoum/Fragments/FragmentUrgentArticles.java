@@ -20,19 +20,17 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Adapter.U
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.BuildConfig;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.AppExecutors;
-import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Config;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.GenericAsyncTask.NewsApiAsyncTask;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Network.VerifyConnection;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Dao.ArticlesDao;
-import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.ArticlesViewModel;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.UrgentArticlesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.TwoPANEExtras_KEY;
-import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.NewsApiFragment.KEY_Urgent;
 
 /**
  * Created by Prof-Mohamed Atef on 2/18/2019.
@@ -52,7 +50,7 @@ public class FragmentUrgentArticles extends Fragment implements NewsApiAsyncTask
     private AppDatabase mDatabase;
     public static String KEY_Urgent="KEY_Urgent";
     private AppExecutors mAppExecutors;
-    private ArticlesViewModel articlesViewModel;
+    private UrgentArticlesViewModel urgentArticlesViewModel;
     private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
 
     @Override
@@ -101,15 +99,15 @@ public class FragmentUrgentArticles extends Fragment implements NewsApiAsyncTask
     }
 
     public void initializeViewModel(){
-        articlesViewModel = ViewModelProviders.of(getActivity()).get(ArticlesViewModel.class);
-        articlesViewModel.setCategory(KEY_Urgent);
-        if (articlesViewModel!=null){
-            articlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().observe((LifecycleOwner) getActivity(), new Observer<List<ArticlesEntity>>() {
+        urgentArticlesViewModel = ViewModelProviders.of(getActivity()).get(UrgentArticlesViewModel.class);
+        urgentArticlesViewModel.setCategory(KEY_Urgent);
+        if (urgentArticlesViewModel !=null){
+            urgentArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().observe((LifecycleOwner) getActivity(), new Observer<List<ArticlesEntity>>() {
                 @Override
                 public void onChanged(@Nullable List<ArticlesEntity> articleEntities) {
                     if (articleEntities!=null){
                         if (articleEntities.size()>0){
-                            articlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().removeObserver(this::onChanged);
+                            urgentArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().removeObserver(this::onChanged);
                             UrgentArticlesListLiveData=mDatabase.articlesDao().getArticlesDataByCategory(KEY_Urgent);
                             UrgentArticlesListLiveData.observe((LifecycleOwner)getActivity(),UrgentList -> {
                                 if (UrgentList.size()>0){
@@ -181,7 +179,7 @@ public class FragmentUrgentArticles extends Fragment implements NewsApiAsyncTask
     private void PopulateUrgentArticles(List<ArticlesEntity> urgentArticlesList) {
         UrgentNewsAdapter mAdapter=new UrgentNewsAdapter(getActivity(),urgentArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
-        layoutManager=(GridLayoutManager)recyclerView_Horizontal.getLayoutManager();
+//        layoutManager=(GridLayoutManager)recyclerView_Horizontal.getLayoutManager();
         RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView_Horizontal.setLayoutManager(mLayoutManager);
         recyclerView_Horizontal.setItemAnimator(new DefaultItemAnimator());

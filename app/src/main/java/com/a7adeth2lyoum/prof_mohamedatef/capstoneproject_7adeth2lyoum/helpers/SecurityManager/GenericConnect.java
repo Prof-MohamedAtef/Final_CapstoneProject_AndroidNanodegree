@@ -291,7 +291,7 @@ public class GenericConnect {
         }
         if (list.size()>0){
             InsertClass insertClass=new InsertClass();
-            insertClass.TryInsert1(mDatabase,list,onNewsTaskCompleted, KEY);
+            insertClass.TryInsertNewsAPIData(mDatabase,list,onNewsTaskCompleted, KEY);
         }
         return list;
     }

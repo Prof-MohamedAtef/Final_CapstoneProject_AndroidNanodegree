@@ -30,6 +30,10 @@ public class ArticlesEntity implements Serializable{
     public String AUTHOR;
 
     @NonNull
+    @ColumnInfo(name = "AUDIO_URL")
+    public String AUDIO_URL;
+
+    @NonNull
     @ColumnInfo(name = "TITLE")
     public String TITLE;
 
@@ -37,11 +41,9 @@ public class ArticlesEntity implements Serializable{
     @ColumnInfo(name = "DESCRIPTION")
     public String DESCRIPTION;
 
-
     @NonNull
     @ColumnInfo(name = "ARTICLE_URL")
     public String ARTICLE_URL;
-
 
     @NonNull
     @ColumnInfo(name = "IMAGE_URL")
@@ -71,6 +73,16 @@ public class ArticlesEntity implements Serializable{
         this.PUBLISHED_AT=published_at_str;
         this.SOURCE_NAME=name_str;
     }
+
+    @NonNull
+    public String getAUDIO_URL() {
+        return AUDIO_URL;
+    }
+
+    public void setAUDIO_URL(@NonNull String AUDIO_URL) {
+        this.AUDIO_URL = AUDIO_URL;
+    }
+
     @Ignore
     public ArticlesEntity(String author_str, String url_str, String language_str, String site_str, String sectiontitle_str, String title_str, String titlefull_str, String published_str, String mainimage_str, String text_str) {
         this.AUTHOR=author_str;

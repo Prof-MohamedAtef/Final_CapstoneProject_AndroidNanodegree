@@ -2,7 +2,10 @@ package com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragment
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.database.Cursor;
@@ -30,6 +33,9 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.O
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Dao.ArticlesDao;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.TypeArticlesViewModel;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.UrgentArticlesViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.ArticleTypesListActivity.CATEGORY_NAME;
@@ -93,6 +99,8 @@ public class ArticlesMasterListFragment extends Fragment implements
     private Cursor cursor;
     private OptionsEntity optionsEntity;
     private String CategoryName;
+    private TypeArticlesViewModel typeArticlesViewModel;
+    private LiveData<List<ArticlesEntity>> ArticlesListLiveData;
 
     public ArticlesMasterListFragment(){
 
@@ -312,7 +320,7 @@ public class ArticlesMasterListFragment extends Fragment implements
     private void ConnectToAPIs() {
         if (WebHoseVerifier.equals(URL)){
             WebHoseVerifier=null;
-            WebHoseApiAsyncTask webHoseApiAsyncTask=new WebHoseApiAsyncTask(this, getActivity());
+            WebHoseApiAsyncTask webHoseApiAsyncTask=new WebHoseApiAsyncTask(mRoomDatabase, Config.ArticlesMasterListFragment, getActivity(), CategoryName);
             webHoseApiAsyncTask.execute(URL);
         }else if (NewsApiVerifier.equals(URL)){
             NewsApiVerifier=null;
@@ -321,7 +329,7 @@ public class ArticlesMasterListFragment extends Fragment implements
         }
     }
 
-    private void PopulateTypesList(ArrayList<ArticlesEntity> typesArticlesList) {
+    private void PopulateTypesList(List<ArticlesEntity> typesArticlesList) {
         NewsApiRecyclerAdapter mAdapter=new NewsApiRecyclerAdapter(getActivity(),typesArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
         RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
@@ -402,42 +410,44 @@ public class ArticlesMasterListFragment extends Fragment implements
                 VerifyConnection verifyConnection=new VerifyConnection(getActivity());
                 verifyConnection.checkConnection();
                 if (verifyConnection.isConnected()){
-//                    checkSavedOfflineData("Sports");
                     ConnectToAPIs();
                 }
-//                else {
-//                    String selection= NewsProvider.CATEGORY+"=?";
-//                    String[] selectionArgs = new String[1];
-//                    selectionArgs[0] ="Sports";
-//                    ContentResolver resolver=getActivity().getContentResolver();
-//                    cursor=resolver.query(CONTENT_URI, null, selection, selectionArgs, NewsProvider.CATEGORY);
-//                    if (cursor!=null){
-//                        TypesArticlesList= CursorTypeConverter.AddCursorToArrayList(cursor);
-//                        if (TypesArticlesList.size()>0){
-//                            PopulateTypesList(TypesArticlesList);
-//                        }
-//                    }else {
-//                        // Show Snack
-//                        // redirect no internet fragment
-//                    }
-//                }
+                else {
+                    initializeViewModel();
+                }
             }
         }
 
         return rootView;
     }
 
+    public void initializeViewModel(){
+        typeArticlesViewModel = ViewModelProviders.of(getActivity()).get(TypeArticlesViewModel.class);
+        typeArticlesViewModel.setCategory(CategoryName);
+        if (typeArticlesViewModel !=null){
+            typeArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().observe((LifecycleOwner) getActivity(), new Observer<List<ArticlesEntity>>() {
+                @Override
+                public void onChanged(@Nullable List<ArticlesEntity> articleEntities) {
+                    if (articleEntities!=null){
+                        if (articleEntities.size()>0){
+                            PopulateTypesList(articleEntities);
+                            //                            urgentArticlesViewModel.getmObserverMediatorLiveDataListUrgentArticles().removeObserver(this::onChanged);
+//                            ArticlesListLiveData=mRoomDatabase.articlesDao().getArticlesDataByCategory(CategoryName);
+//                            ArticlesListLiveData.observe((LifecycleOwner)getActivity(),UrgentList -> {
+//                                if (UrgentList.size()>0){
+//                                    PopulateTypesList(UrgentList);
+//                                }
+//                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     @Override
     public void onNewsApiTaskCompleted(ArrayList<ArticlesEntity> result) {
         if (result!=null&&result.size()>0){
-            if (result.size()>0){
-//                for (ArticlesEntity optionsEntity:result){
-////                    ContentValues values = CursorTypeConverter.saveUrgentOptionsUisngContentProvider(optionsEntity);
-//                    ContentValues values = CursorTypeConverter.saveOptionsUisngContentProvider(optionsEntity,"Sports");
-//                    Uri uri = getActivity().getContentResolver().insert(
-//                            CONTENT_URI, values);
-//                }
-            }
             PopulateTypesList(result);
             TypesArticlesList=result;
             Config.ArrArticle=result;
@@ -449,13 +459,6 @@ public class ArticlesMasterListFragment extends Fragment implements
         if (result!=null&&result.size()>0){
             TypesArticlesList=result;
             Config.ArrArticle=result;
-            if (result.size()>0){
-//                for (ArticlesEntity optionsEntity:result){
-//                    ContentValues values = CursorTypeConverter.saveOptionsUisngContentProvider(optionsEntity,CategoryName);
-//                    Uri uri = getActivity().getContentResolver().insert(
-//                            CONTENT_URI, values);
-//                }
-            }
             WebHoseRecyclerAdapter mAdapter=new WebHoseRecyclerAdapter(getActivity(),result, TwoPane);
             mAdapter.notifyDataSetChanged();
             RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());

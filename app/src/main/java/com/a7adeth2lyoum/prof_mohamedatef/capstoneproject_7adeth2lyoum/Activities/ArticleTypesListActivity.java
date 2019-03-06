@@ -1,6 +1,7 @@
 package com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities;
 
 import android.app.ActivityOptions;
+import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -17,10 +18,17 @@ import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.FragmentUrgentArticles;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Fragments.NoInternetFragment;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.AppExecutors;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Config;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Network.SnackBarClassLauncher;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Network.VerifyConnection;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.Dao.ArticlesDao;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.ViewModel.UrgentArticlesViewModel;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import static com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.HomeActivity.ARTS;
@@ -74,6 +82,10 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
     private FragmentSoundPlayer fragmentSoundPlayer;
     private FragmentArticleViewer fragmentArticleViewer;
     private FragmentUrgentArticles fragmentUrgentArticles;
+    private UrgentArticlesViewModel urgentArticlesViewModel;
+    private AppDatabase mDatabase;
+    private AppExecutors mAppExecutors;
+    private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
 
     @Override
     public void onStart() {
@@ -90,6 +102,18 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
         fragmentSoundPlayer=new FragmentSoundPlayer();
         fragmentArticleViewer=new FragmentArticleViewer();
         fragmentUrgentArticles=new FragmentUrgentArticles();
+        mDatabase =new AppDatabase() {
+            @Override
+            public ArticlesDao articlesDao() {
+                return null;
+            }
+            @Override
+            public void clearAllTables() {
+
+            }
+        };
+        mAppExecutors = new AppExecutors();
+        mDatabase= AppDatabase.getAppDatabase(getApplicationContext(),mAppExecutors);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         assert getSupportActionBar() != null;

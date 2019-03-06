@@ -105,9 +105,11 @@ public class FragmentArticleViewer extends Fragment{
                     SourceName.setText(articlesEntity.getSOURCE_NAME());
                     if (articlesEntity.getPUBLISHED_AT()!=null&&articlesEntity.getARTICLE_URL()!=null&&articlesEntity.getIMAGE_URL()!=null){
                         Date.setText(articlesEntity.getPUBLISHED_AT());
-                        Picasso.with(getActivity()).load(articlesEntity.getIMAGE_URL())
-                                .error(R.drawable.stanly)
-                                .into(Image);
+                        if (articlesEntity.getIMAGE_URL()!=null&&!articlesEntity.getIMAGE_URL().isEmpty()&&!articlesEntity.getIMAGE_URL().equals("")){
+                            Picasso.with(getActivity()).load(articlesEntity.getIMAGE_URL())
+                                    .error(R.drawable.stanly)
+                                    .into(Image);
+                        }
                         linearLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

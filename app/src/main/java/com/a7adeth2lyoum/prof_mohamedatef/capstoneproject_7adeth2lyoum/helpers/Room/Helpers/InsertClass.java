@@ -2,6 +2,7 @@ package com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.
 
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.GenericAsyncTask.InsertAsyncTask;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.GenericAsyncTask.NewsApiAsyncTask;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.GenericAsyncTask.WebHoseApiAsyncTask;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.AppDatabase;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 
@@ -19,7 +20,12 @@ public class InsertClass {
     }
 
 
-    public void TryInsert1(AppDatabase mDatabase, ArrayList<ArticlesEntity> list, NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted, String key) {
+    public void TryInsertNewsAPIData(AppDatabase mDatabase, ArrayList<ArticlesEntity> list, NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted, String key) {
+        InsertAsyncTask insertAsyncTask=new InsertAsyncTask(mDatabase,list,onNewsTaskCompleted,key);
+        insertAsyncTask.execute();
+    }
+
+    public void TryInsertWebHoseAPIData(AppDatabase mDatabase, ArrayList<ArticlesEntity> list, WebHoseApiAsyncTask.OnWebHoseTaskCompleted onNewsTaskCompleted, String key) {
         InsertAsyncTask insertAsyncTask=new InsertAsyncTask(mDatabase,list,onNewsTaskCompleted,key);
         insertAsyncTask.execute();
     }

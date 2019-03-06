@@ -103,9 +103,14 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
                         } else {
                             holder.Date.setText(feedItem.getPUBLISHED_AT());
                         }
-                        Picasso.with(mContext).load(feedItem.getIMAGE_URL())
-                                .error(R.drawable.breaking_news)
-                                .into(holder.Image);
+                        if (feedItem.getIMAGE_URL()!=null&&!feedItem.getIMAGE_URL().isEmpty()&&feedItem.getIMAGE_URL()!=""&&feedItem.getIMAGE_URL()!=" "){
+                            Picasso.with(mContext).load(feedItem.getIMAGE_URL())
+                                    .error(R.drawable.breaking_news)
+                                    .into(holder.Image);
+                        }else {
+                            Picasso.with(mContext).load(R.drawable.breaking_news)
+                                    .into(holder.Image);
+                        }
                     } else {
                         holder.Date.setText("");
                     }

@@ -13,7 +13,7 @@
     <string name="unavailable">Un Available</string>
     <string name="not_identified">Not Identified</string>
     <string name="author_not_identified">Author Not Identified</string>
-
+    <string name="PleaseDisplayUsingConn">First Time Usage Requires Active Internet Connection!</string>
     <string name="okay">It is Okay</string>
     <string name="date">date_time</string>
     <string name="clicked">Clicked</string>
@@ -61,3 +61,4 @@
     <string name="business_news">business</string>
     <string name="logout">Log Out</string>
 </resources>
+

@@ -57,4 +57,5 @@ public class Config {
     public static AppDatabase mDatabase;
     public static LinearLayout LinearUiIdentifier;
     public static NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted;
+    public static String Listener;
 }

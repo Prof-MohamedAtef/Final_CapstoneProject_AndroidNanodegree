@@ -25,6 +25,7 @@ import android.widget.SeekBar;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.R;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Config;
 import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.OptionsEntity;
+import com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.helpers.Room.ArticlesEntity;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class FragmentSoundPlayer extends Fragment implements View.OnClickListene
     SeekBar seekBar;
     @BindView(R.id.linearLayoutPlay)
     LinearLayout linearLayoutPlay;
+    private ArticlesEntity articlesEntity;
 //    private FirebaseDataHolder firebaseDataHolder;
 
     private void stopPlaying() {
@@ -170,8 +172,8 @@ public class FragmentSoundPlayer extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            optionsEntity = (OptionsEntity) savedInstanceState.getSerializable(KEY_optionsEntity);
-            AudioString=optionsEntity.getAudioFile();
+            articlesEntity = (ArticlesEntity) savedInstanceState.getSerializable(KEY_optionsEntity);
+            AudioString=articlesEntity.getAUDIO_URL();
             DisplayData(AudioString);
         } else if (savedInstanceState == null) {
             final Bundle bundle = getArguments();
@@ -181,8 +183,8 @@ public class FragmentSoundPlayer extends Fragment implements View.OnClickListene
 //                    AudioString= firebaseDataHolder.getAudioURL();
                     DisplayData(AudioString);
                 }else {
-                    optionsEntity = (OptionsEntity) bundle.getSerializable(TwoPANEExtras_KEY);
-                    AudioString=optionsEntity.getAudioFile();
+                    articlesEntity = (ArticlesEntity) bundle.getSerializable(TwoPANEExtras_KEY);
+                    AudioString=articlesEntity.getAUDIO_URL();
                     DisplayData(AudioString);
                 }
             }
