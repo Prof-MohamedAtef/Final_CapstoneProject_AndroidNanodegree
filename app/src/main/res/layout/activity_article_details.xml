@@ -13,7 +13,7 @@ xmlns:tools="http://schemas.android.com/tools">
     android:background="@android:color/white"
     android:orientation="vertical"
     android:weightSum="6"
-    tools:context="journal.nanodegree.capstone.prof.journal_capstonnanodegree.Activities.ArticleDetailsActivity">
+    tools:context="com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleDetailsActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

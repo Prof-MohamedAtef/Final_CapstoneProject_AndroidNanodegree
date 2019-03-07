@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_authentication"
+    android:gravity="bottom"
+    android:background="@color/primaryColor"
+    tools:context="com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.AuthenticationActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+        <LinearLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:contentDescription="@string/app_icon"
+                android:id="@+id/ProfileImage_header_Post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.facebook.login.widget.LoginButton
+    android:id="@+id/fblogin_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp" />
+    <com.google.android.gms.common.SignInButton
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/btn_sign_in"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"/>
+</LinearLayout>

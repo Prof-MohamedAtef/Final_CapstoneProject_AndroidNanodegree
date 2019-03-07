@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "814800557452",
+    "firebase_url": "https://capstonejournal-49bc1.firebaseio.com",
+    "project_id": "capstonejournal-49bc1",
+    "storage_bucket": "capstonejournal-49bc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814800557452:android:a602caf614b0df7d",
+        "android_client_info": {
+          "package_name": "com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814800557452-hqct4qjkin7u2lfohtk5bkb3ksa79ecd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed",
+            "certificate_hash": "5323887efae52f862d5e129e8d3d41945237f985"
+          }
+        },
+        {
+          "client_id": "814800557452-4vam39a40iiqu67c7k34nakn0d8buqlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtad6EMrpEFSl5i5edvrZDCCTUl2d3dH8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814800557452-4vam39a40iiqu67c7k34nakn0d8buqlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814800557452:android:0bef7a02f2b173df",
+        "android_client_info": {
+          "package_name": "journal.nanodegree.capstone.prof.journal_capstonnanodegree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814800557452-k3dppvb5t4m8l447cli9eejav73hftuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "journal.nanodegree.capstone.prof.journal_capstonnanodegree",
+            "certificate_hash": "9b5b2f291e6d6ce1126e85e3efcd66486355eba2"
+          }
+        },
+        {
+          "client_id": "814800557452-4vam39a40iiqu67c7k34nakn0d8buqlr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtad6EMrpEFSl5i5edvrZDCCTUl2d3dH8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814800557452-4vam39a40iiqu67c7k34nakn0d8buqlr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.a7adeth2lyoum.prof_mohamedatef.capstoneproject_7adeth2lyoum.Activities.WebViewerActivity">
+    tools:context="com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.WebViewerActivity">
     <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/webview"
         android:layout_width="match_parent"
