@@ -2,12 +2,14 @@ package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.PostToNewsFeedActivity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.PublishToNewsFeed;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.ArticlesMasterListFragment;
@@ -32,10 +34,11 @@ public class Config {
     public static CoordinatorLayout mCoordinatorLayout;
     public static LinearLayout activityLinearHome;
     public static boolean TwoPane;
-    public static int position;
+    public static int position=0;
     public static String currentImagePAth;
     public static ImageView imageViewPlay;
     public static String imageBitmap;
+    public static Bitmap Bitmap_;
     public static String image_name;
     public static String selectedImagePath;
     public static File StorageDir;
@@ -65,4 +68,11 @@ public class Config {
     public static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseImageHelper FirebaseImageHelper;
     public static List<FirebaseDataHolder> FirebaseArticlesList;
     public static Uri AudioUri;
+    public static ArticlesEntity ArticlesEntity;
+    public static Uri ImageFileUri;
+    public static String AudioFilePath;
+    public static int PlayedNum=0;
+    public static boolean Playing;
+    public static int lastProgress;
+    public static int Pos;
 }

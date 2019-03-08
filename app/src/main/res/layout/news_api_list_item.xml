@@ -117,47 +117,6 @@
                         android:text="@string/read_more"/>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayoutRecorder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal|center_vertical">
-                <Chronometer
-                    android:id="@+id/chronometerTimer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_gravity="center_horizontal" />
-                <LinearLayout
-                    android:id="@+id/linearLayoutPlay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp">
-                    <!---->
-                    <ImageView
-                        android:contentDescription="@string/play"
-                        android:id="@+id/imageViewPlay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_play"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="true"
-                        android:tint="@color/black"
-                        android:focusable="true"
-                        android:background="?android:attr/selectableItemBackground" />
-                    <SeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

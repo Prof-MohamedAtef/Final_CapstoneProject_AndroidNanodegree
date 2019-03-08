@@ -15,13 +15,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +35,6 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.AppExecutors;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseDataHolder;
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseReportsAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.InsertLocallyFirebaseAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.WebHoseApiAsyncTask;
@@ -47,18 +46,14 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Dao.A
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Helpers.InsertClass;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.ViewModel.FirebaseViewModel;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.ViewModel.TypeArticlesViewModel;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.CATEGORY_NAME;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.NEWSAPI_KEY;
-import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.OtherTypes_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.TwoPANEExtras_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.URL_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.WebHoseAPIKEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.PublishToNewsFeed.KEY_FIREBASE;
-import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.POSTActivity;
 
 /**
  * Created by Prof-Mohamed Atef on 1/10/2019.
@@ -67,7 +62,6 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Con
 public class ArticlesMasterListFragment extends Fragment implements
         NewsApiAsyncTask.OnNewsTaskCompleted,
         WebHoseApiAsyncTask.OnWebHoseTaskCompleted,
-        FirebaseReportsAsyncTask.OnDownloadCompleted,
         InsertLocallyFirebaseAsyncTask.OnFirebaseInsertedLocallyCompleted
 {
 
@@ -100,15 +94,12 @@ public class ArticlesMasterListFragment extends Fragment implements
     private String UserName_KEY="user_name";
     private String Data_KEY="data";
     private String LOG_TAG="TAG";
-//    FirebaseDataHolder firebaseDataHolder;
     ArrayList<ContentProviderOperation> cpo = new ArrayList<ContentProviderOperation>();
-    Uri dirUri ;
-
+        RecyclerView.LayoutManager mLayoutManager;
     private ProgressDialog dialog;
     private String Date_KEY="date";
     private String Date_STR;
     private Cursor cursor;
-    private OptionsEntity optionsEntity;
     private String CategoryName;
     private TypeArticlesViewModel typeArticlesViewModel;
     private LiveData<List<ArticlesEntity>> ArticlesListLiveData;
@@ -116,22 +107,11 @@ public class ArticlesMasterListFragment extends Fragment implements
     private FirebaseDataHolder firebaseDataHolder;
     private DatabaseReference mDatabase;
     private FirebaseViewModel firebaseViewModel;
+    private String KEY_POSITION;
 
     public ArticlesMasterListFragment(){
 
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        firebaseHelper=new FirebaseHelper();
-    }
-
 
     private ArrayList<ArticlesEntity> TypesArticlesList;
     private String WebHoseVerifier, NewsApiVerifier;
@@ -142,6 +122,14 @@ public class ArticlesMasterListFragment extends Fragment implements
     private int FragmentFirebaseApiNum=33;
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState!=null){
+            Config.Pos= savedInstanceState.getInt(KEY_POSITION);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (Config.RetrieveFirebaseData){
@@ -149,6 +137,7 @@ public class ArticlesMasterListFragment extends Fragment implements
         }else if (TypesArticlesList!=null){
             outState.putSerializable(KEY_ArticleTypeArray, TypesArticlesList);
         }
+        outState.putInt(KEY_POSITION,Config.position);
     }
 
     public List<FirebaseDataHolder> FetchDataFromFirebase() {
@@ -190,13 +179,6 @@ public class ArticlesMasterListFragment extends Fragment implements
         return FirebaseArticlesList;
     }
 
-//    public static DataSnapshot dataSnapshot;
-//    private void SendToMethod(DataSnapshot dataSnapshot) {
-//        this.dataSnapshot=dataSnapshot;
-//    }
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,91 +214,6 @@ public class ArticlesMasterListFragment extends Fragment implements
         }
     }
 
-//    private void AddCursorToArrayList() {
-//        if (cursor.moveToFirst()){
-//            for (cursor.moveToFirst();!cursor.isAfterLast();cursor.moveToNext()){
-//                optionsEntity=new OptionsEntity();
-//                optionsEntity.setAUTHOR(cursor.getString(cursor.getColumnIndex(NewsProvider.AUTHOR)));
-//                optionsEntity.setTITLE(cursor.getString(cursor.getColumnIndex(NewsProvider.TITLE)));
-//                optionsEntity.setDESCRIPTION(cursor.getString(cursor.getColumnIndex(NewsProvider.DESCRIPTION)));
-//                optionsEntity.setURL(cursor.getString(cursor.getColumnIndex(NewsProvider.ARTICLE_URL)));
-//                optionsEntity.setURLTOIMAGE(cursor.getString(cursor.getColumnIndex(NewsProvider.IMAGE_URL)));
-//                optionsEntity.setPUBLISHEDAT(cursor.getString(cursor.getColumnIndex(NewsProvider.PUBLISHED_AT)));
-//                optionsEntity.setNAME(cursor.getString(cursor.getColumnIndex(NewsProvider.SOURCE_NAME)));
-//                UrgentArticlesList.add(optionsEntity);
-//            }
-//        }
-//        if (UrgentArticlesList.size()>0){
-//            PopulateUrgentArticles(UrgentArticlesList);
-//        }
-//    }
-
-
-//    private void FetchFromFirebaseOfflineData() {
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                ArrayList<String> Articles=new ArrayList<>();
-//                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-//                     Articles.add(childSnapshot.getChildren().toString());
-//                     String x= Articles.get(0);
-////                    FirebaseArticlesList.add()childSnapshot.getValue().toString();
-////                    firebaseDataHolder.add
-//                }
-//
-//
-//
-//                PopulateFirebaseList(FirebaseArticlesList);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-////        DatabaseReference mDatabase=FirebaseDatabase.getInstance().getReference(Data_KEY);
-////        mDatabase.orderByValue().limitToLast(4).addChildEventListener(new ChildEventListener() {
-////            @Override
-////            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-////            }
-////
-////            @Override
-////            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-////
-////            }
-////
-////            @Override
-////            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-////
-////            }
-////
-////            @Override
-////            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-////
-////            }
-////
-////            @Override
-////            public void onCancelled(@NonNull DatabaseError databaseError) {
-////
-////            }
-////        });
-//    }
-
-
-//    private void checkSavedOfflineData(String category){
-//        String selection= NewsProvider.CATEGORY+"=?";
-//        String[] selectionArgs = new String[1];
-//        selectionArgs[0] = category;
-//        ContentResolver resolver=getActivity().getContentResolver();
-//        cursor=resolver.query(CONTENT_URI, null, selection, selectionArgs, NewsProvider.CATEGORY);
-//        if (cursor.moveToFirst()) {
-//            ContentResolver CR = getActivity().getContentResolver();
-//            CR.delete(CONTENT_URI, null, null);
-//        }
-//    }
-
     private void ConnectToAPIs() {
         if (WebHoseVerifier.equals(URL)){
             WebHoseVerifier=null;
@@ -332,38 +229,14 @@ public class ArticlesMasterListFragment extends Fragment implements
     private void PopulateTypesList(List<ArticlesEntity> typesArticlesList) {
         NewsApiRecyclerAdapter mAdapter=new NewsApiRecyclerAdapter(getActivity(),typesArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
+        mLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setHasStableIds(true);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.smoothScrollToPosition(Config.Pos);
         Config.FragmentNewsApiNum=FragmentNewsApiNum;
     }
-
-//    private void PopulateFirebaseList(ArrayList<FirebaseDataHolder> result) {
-//        FirebaseArticlesList=result;
-//        if (result!=null){
-//            if (result.size()>0){
-//                for (FirebaseDataHolder firebaseDataHolder : result){
-//                    ContentValues values = CursorTypeConverter.saveFireBDataHolderUsingContentProvider(firebaseDataHolder,CategoryName);
-//                    Uri uri = getActivity().getContentResolver().insert(
-//                            CONTENT_URI, values);
-//                }
-//            }
-//        }
-//        PopulateFireBRecyclerArticles();
-//        Config.FirebaseArticlesList=result;
-//        Config.FragmentFirebaseApiNum=FragmentFirebaseApiNum;
-//    }
-
-//    private void PopulateFireBRecyclerArticles() {
-//        FirebaseRecyclerAdapter mAdapter=new FirebaseRecyclerAdapter(getActivity(),FirebaseArticlesList, TwoPane);
-//        mAdapter.notifyDataSetChanged();
-//        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(mAdapter);
-//    }
 
     @Nullable
     @Override
@@ -380,11 +253,9 @@ public class ArticlesMasterListFragment extends Fragment implements
                 initializeFirebaseViewModel();
             }
         }else {
-            if (savedInstanceState!=null){
-                if (TypesArticlesList.isEmpty()){
-                    TypesArticlesList=(ArrayList<ArticlesEntity>) savedInstanceState.getSerializable(KEY_ArticleTypeArray);
-                    PopulateTypesList(TypesArticlesList);
-                }
+            if (savedInstanceState!=null) {
+                TypesArticlesList = (ArrayList<ArticlesEntity>) savedInstanceState.getSerializable(KEY_ArticleTypeArray);
+                PopulateTypesList(TypesArticlesList);
             }else {
                 VerifyConnection verifyConnection=new VerifyConnection(getActivity());
                 verifyConnection.checkConnection();
@@ -396,7 +267,6 @@ public class ArticlesMasterListFragment extends Fragment implements
                 }
             }
         }
-
         return rootView;
     }
 
@@ -450,32 +320,27 @@ public class ArticlesMasterListFragment extends Fragment implements
             Config.ArrArticle=result;
             WebHoseRecyclerAdapter mAdapter=new WebHoseRecyclerAdapter(getActivity(),result, TwoPane);
             mAdapter.notifyDataSetChanged();
-            RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
+            mLayoutManager=new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(mAdapter);
+            recyclerView.smoothScrollToPosition(Config.Pos);
             Config.FragmentWebHoseApiNum=FragmentWebHoseApiNum;
             TypesArticlesList=result;
             Config.ArrArticle=result;
         }
     }
 
-    @Override
-    public void onDownloadTaskCompleted(ArrayList<FirebaseDataHolder> result) {
-        if (result!=null&&result.size()>0){
-            PopulateFirebaseList(result);
-        }
-    }
-
     private void PopulateFireBRecyclerArticles() {
         FirebaseRecyclerAdapter mAdapter=new FirebaseRecyclerAdapter(getActivity(),FirebaseArticlesList, TwoPane);
         mAdapter.notifyDataSetChanged();
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity());
+        mLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.computeVerticalScrollOffset();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        recyclerView.smoothScrollToPosition(Config.Pos);
     }
-
 
     private void PopulateFirebaseList(List<FirebaseDataHolder> result) {
         FirebaseArticlesList=result;
@@ -490,7 +355,6 @@ public class ArticlesMasterListFragment extends Fragment implements
     public void OnLocalFirebaseInsert(FirebaseDataHolder firebaseDataHolder) {
 
     }
-
 
     public interface OnSelectedArticleListener {
         void onArticleSelected(ArticlesEntity articlesEntity, boolean TwoPane, int position);

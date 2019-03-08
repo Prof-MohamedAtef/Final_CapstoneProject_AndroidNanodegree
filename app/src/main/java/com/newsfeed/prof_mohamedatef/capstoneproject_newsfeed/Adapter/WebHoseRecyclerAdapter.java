@@ -2,9 +2,6 @@ package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,27 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.WebViewerActivity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.ArticlesMasterListFragment;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.URL_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Adapter.NewsApiRecyclerAdapter.NOTHING_TODO;
-
 
 /**
  * Created by Prof-Mohamed Atef on 1/11/2019.
@@ -44,16 +33,6 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
     Context mContext;
     ArrayList<ArticlesEntity> feedItemList;
     boolean TwoPane;
-
-    protected Chronometer chronometerTimer;
-    protected SeekBar seekBar;
-    protected LinearLayout linearLayoutRecorder;
-    protected LinearLayout linearLayoutPlay;
-    public MediaPlayer mPlayer;
-    private String fileName = null;
-    private int lastProgress = 0;
-    private Handler mHandler = new Handler();
-    private boolean isPlaying = false;
 
     public WebHoseRecyclerAdapter(Context mContext, ArrayList<ArticlesEntity> feedItemList, boolean twoPane) {
         this.mContext = mContext;
@@ -86,6 +65,7 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
                             Picasso.with(mContext).load(ImagePath)
                                     .error(R.drawable.stanly)
                                     .into(holder.Image);
+                            Config.position=position;
                         }else {
                             Picasso.with(mContext).load(R.drawable.stanly).into(holder.Image);
                             Log.v(LOG_TAG, "No URL To Image Returned" );
@@ -103,6 +83,7 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
                 @Override
                 public void onClick(View v) {
                     ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(position),TwoPane, position);
+//                    Config.position=position;
                     if (Config.ActivityNum==0){
                         if (feedItem.getARTICLE_URL() != null) {
                             String url=feedItem.getARTICLE_URL();
@@ -115,19 +96,6 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
                         Do nothing
                          */
                         Log.e(LOG_TAG, NOTHING_TODO);
-                    }
-                }
-            });
-
-            holder.imageViewPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!isPlaying&&fileName!=null){
-                        isPlaying=true;
-                        startPlaying();
-                    }else {
-                        isPlaying=false;
-                        stopPlaying();
                     }
                 }
             });
@@ -148,18 +116,9 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
         protected ImageView Image;
         protected LinearLayout linearLayout;
         protected WebView browser;
-        protected ImageView imageViewPlay;
+
         public ViewHOlder(View converview) {
             super(converview);
-            /*
-            audio
-             */
-            chronometerTimer=(Chronometer)converview.findViewById(R.id.chronometerTimer);
-            this.imageViewPlay=(ImageView)converview.findViewById(R.id.imageViewPlay);
-            Config.imageViewPlay=this.imageViewPlay;
-            seekBar=(SeekBar)converview.findViewById(R.id.seekBar);
-            linearLayoutRecorder=(LinearLayout)converview.findViewById(R.id.linearLayoutRecorder);
-            linearLayoutPlay=(LinearLayout) converview.findViewById(R.id.linearLayoutPlay);
             /*
             others
              */
@@ -171,108 +130,10 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
             this.Image =(ImageView)converview.findViewById(R.id.image);
             this.linearLayout=(LinearLayout)converview.findViewById(R.id.linearLayout);
             this.browser= (WebView) converview.findViewById(R.id.webview);
-            if (Config.ActivityNum==0){
-                initializeAudioPlayer();
-            }else {
-                linearLayoutPlay.setVisibility(View.GONE);
-                linearLayoutRecorder.setVisibility(View.GONE);
-            }
+
             if (Config.FragmentWebHoseApiNum==22){
                 Image.setVisibility(View.GONE);
             }
         }
-    }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            seekUpdation();
-        }
-    };
-
-    private void seekUpdation() {
-        if(mPlayer != null){
-            int mCurrentPosition = mPlayer.getCurrentPosition() ;
-            seekBar.setProgress(mCurrentPosition);
-            lastProgress = mCurrentPosition;
-        }
-        mHandler.postDelayed(runnable, 100);
-    }
-
-    private void initializeAudioPlayer() {
-        File root = android.os.Environment.getExternalStorageDirectory();
-        File file = new File(root.getAbsolutePath() + "/VoiceRecorderSimplifiedCoding/Audios");
-        if (file.exists()) {
-            fileName = root.getAbsolutePath() + "/VoiceRecorderSimplifiedCoding/Audios/" + "1548717911705" + ".mp3";
-        }
-
-        if (fileName!=null){
-            linearLayoutPlay.setVisibility(View.VISIBLE);
-        }else {
-            linearLayoutRecorder.setVisibility(View.GONE);
-        }
-    }
-
-    private void stopPlaying() {
-        try{
-            mPlayer.release();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        mPlayer = null;
-        //showing the play button
-        Config.imageViewPlay.setImageResource(R.drawable.ic_play);
-        chronometerTimer.stop();
-    }
-
-    private void startPlaying() {
-        mPlayer = new MediaPlayer();
-        try {
-//fileName is global string. it contains the Uri to the recently recorded audio.
-            mPlayer.setDataSource(fileName);
-            mPlayer.prepare();
-            mPlayer.start();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-        }
-        //making the imageview pause button
-        Config.imageViewPlay.setImageResource(R.drawable.ic_pause);
-        seekBar.setProgress(lastProgress);
-        mPlayer.seekTo(lastProgress);
-        seekBar.setMax(mPlayer.getDuration());
-        seekUpdation();
-        chronometerTimer.start();
-
-        /** once the audio is complete, timer is stopped here**/
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                Config.imageViewPlay.setImageResource(R.drawable.ic_play);
-                isPlaying = false;
-                chronometerTimer.stop();
-            }
-        });
-
-        /** moving the track as per the seekBar's position**/
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if( mPlayer!=null && fromUser ){
-                    //here the track's progress is being changed as per the progress bar
-                    mPlayer.seekTo(progress);
-                    //timer is being updated as per the progress of the seekbar
-                    chronometerTimer.setBase(SystemClock.elapsedRealtime() - mPlayer.getCurrentPosition());
-                    lastProgress = progress;
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
     }
 }

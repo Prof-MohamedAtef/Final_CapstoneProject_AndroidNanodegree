@@ -19,6 +19,8 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.F
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.OtherTypes_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.TwoPANEExtras_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.URL_KEY;
@@ -43,6 +45,7 @@ public class FragmentArticleViewer extends Fragment{
     private TextView read_more;
     private FirebaseDataHolder firebaseDataHolder;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,40 +56,60 @@ public class FragmentArticleViewer extends Fragment{
         Description = (TextView) rootView.findViewById(R.id.description);
         SourceName = (TextView) rootView.findViewById(R.id.source_name);
         Image = (ImageView) rootView.findViewById(R.id.image);
+        read_more=(TextView) rootView.findViewById(R.id.read_more);
         linearLayout = (LinearLayout) rootView.findViewById(R.id.linearLayout);
+//        if (savedInstanceState != null) {
+//            if (Config.RetrieveFirebaseData){
+//                firebaseDataHolder = (FirebaseDataHolder) savedInstanceState.getSerializable(KEY_FIREBASE);
+//                if (firebaseDataHolder!=null){
+//                    DisplayFirebaseData(firebaseDataHolder);
+//                }
+//            }else {
+//                articlesEntity = (ArticlesEntity) savedInstanceState.getSerializable(OtherTypes_KEY);
+//                if (articlesEntity!=null){
+//                    DisplayOptionsData(articlesEntity);
+//                }
+//            }
+//        }
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (Config.RetrieveFirebaseData){
-            outState.putSerializable(KEY_FIREBASE, firebaseDataHolder);
-        }else {
-            outState.putSerializable(OtherTypes_KEY, articlesEntity);
-        }
-    }
+
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        if (Config.RetrieveFirebaseData){
+//            if (Config.FirebaseDataHolder!=null){
+//                firebaseDataHolder=Config.FirebaseDataHolder;
+//                outState.putSerializable(KEY_FIREBASE, firebaseDataHolder);
+//            }
+//        }else {
+//            if (Config.ArticlesEntity!=null){
+//                articlesEntity=Config.ArticlesEntity;
+//                outState.putSerializable(OtherTypes_KEY, articlesEntity);
+//            }
+//        }
+//    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (Config.RetrieveFirebaseData){
-                firebaseDataHolder = (FirebaseDataHolder) savedInstanceState.getSerializable(KEY_FIREBASE);
-                DisplayFirebaseData(firebaseDataHolder);
-            }else {
-                articlesEntity = (ArticlesEntity) savedInstanceState.getSerializable(OtherTypes_KEY);
-                DisplayOptionsData(articlesEntity);
-            }
-        } else if (savedInstanceState == null) {
+        if (savedInstanceState == null) {
             final Bundle bundle = getArguments();
             if (bundle != null) {
                 if (Config.RetrieveFirebaseData){
                     firebaseDataHolder=(FirebaseDataHolder) bundle.getSerializable(KEY_FIREBASE);
-                    DisplayFirebaseData(firebaseDataHolder);
+                    if (firebaseDataHolder!=null){
+                        Config.FirebaseDataHolder=firebaseDataHolder;
+                        DisplayFirebaseData(firebaseDataHolder);
+                    }
                 }else {
                     articlesEntity = (ArticlesEntity) bundle.getSerializable(OtherTypes_KEY);
-                    DisplayOptionsData(articlesEntity);
+                    if (articlesEntity!=null){
+                        Config.ArticlesEntity=articlesEntity;
+                        DisplayOptionsData(articlesEntity);
+                    }
                 }
             }else {
                 if (Config.ArrArticle!=null&&Config.ArrArticle.size()>0) {
@@ -149,8 +172,10 @@ public class FragmentArticleViewer extends Fragment{
                 if (firebaseDataHolder.getDESCRIPTION()!=null&&firebaseDataHolder.getCategoryID()!=null){
                     Description.setText(firebaseDataHolder.getDESCRIPTION());
                     SourceName.setText(firebaseDataHolder.getCategoryID());
+                    SourceName.setVisibility(View.VISIBLE);
                     if (firebaseDataHolder.getDate()!=null&&firebaseDataHolder.getImageFileUri()!=null){
                         Date.setText(firebaseDataHolder.getDate());
+                        Date.setVisibility(View.VISIBLE);
                         Picasso.with(getActivity()).load(firebaseDataHolder.getImageFileUri())
                                 .error(R.drawable.breaking_news)
                                 .into(Image);

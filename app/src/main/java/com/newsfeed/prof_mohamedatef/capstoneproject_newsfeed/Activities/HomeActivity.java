@@ -21,7 +21,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.BuildConfig;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NewsApiFragment;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NoInternetFragment;
@@ -46,7 +55,8 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.N
 public class HomeActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         NewsApiFragment.NewsApiSelectedArticleListener,
-NoInternetFragment.onReloadInternetServiceListener{
+NoInternetFragment.onReloadInternetServiceListener,
+        GoogleApiClient.OnConnectionFailedListener{
 
     private final String LOG_TAG = HomeActivity.class.getSimpleName();
     private ProgressDialog progressDialog;
@@ -94,6 +104,10 @@ NoInternetFragment.onReloadInternetServiceListener{
     private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
     private AppDatabase mDatabase;
     private AppExecutors mAppExecutors;
+    private String LoggedType;
+    private FirebaseAuth mAuth;
+    private GoogleSignInOptions gso;
+    private GoogleApiClient mGoogleApiClient;
 //    RelativeLayout home_linear;
 
 
@@ -105,6 +119,18 @@ NoInternetFragment.onReloadInternetServiceListener{
         Config.ActivityNum=Activity_Num;
         apiKey= BuildConfig.ApiKey;
         token= BuildConfig.token;
+        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
+        if (verifyConnection.isConnected()){
+            mAuth=FirebaseAuth.getInstance();
+            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+// Build a GoogleApiClient with access to GoogleSignIn.API and the options above.
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }
         mDatabase =new AppDatabase() {
             @Override
             public ArticlesDao articlesDao() {
@@ -248,6 +274,9 @@ NoInternetFragment.onReloadInternetServiceListener{
 //                                .replace(R.id.container_frame, newsApiFragment, "newsApi")
 //                                .commit();
                         return true;
+                    case R.id.logout:
+                        SignOut();
+                        return  true;
                     default:
                         return true;
                 }
@@ -287,6 +316,41 @@ NoInternetFragment.onReloadInternetServiceListener{
         actionBarDrawerToggle.syncState();
         SnackBasedConnection();
     }
+
+    private void SignOut() {
+        VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
+        if (verifyConnection.isConnected()){
+            user =sessionManagement.getLoginType();
+            if (user!=null){
+                LoggedType = user.get(SessionManagement.KEY_LoginType);
+                if (LoggedType!=null){
+                    if (LoggedType.equals("G")){
+                        mAuth.signOut();
+                        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(@NonNull Status status) {
+                                if (status.isSuccess()){
+                                    sessionManagement.logoutUser();
+                                }
+                            }
+                        });
+                    }else if (LoggedType.equals("F")){
+                        LoginManager.getInstance().logOut();
+                        sessionManagement.logoutUser();
+                    }else if (LoggedType.equals("EP")){
+                        mAuth = FirebaseAuth.getInstance();
+                        if (mAuth.getCurrentUser() != null) {
+                            mAuth.signOut();
+                            sessionManagement.logoutUser();
+                        }
+                    }
+                }
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void SnackBasedConnection() {
         VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
@@ -387,5 +451,10 @@ NoInternetFragment.onReloadInternetServiceListener{
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

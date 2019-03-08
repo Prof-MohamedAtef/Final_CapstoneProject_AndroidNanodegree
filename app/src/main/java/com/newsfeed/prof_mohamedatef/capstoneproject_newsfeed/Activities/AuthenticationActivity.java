@@ -263,7 +263,9 @@ public class AuthenticationActivity extends AppCompatActivity implements GoogleA
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager!=null){
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
         super.onActivityResult(requestCode, resultCode, data);
         if (verifyConnection.isConnected()){
             if (requestCode == RC_SIGN_IN) {

@@ -315,7 +315,7 @@ public class PostToNewsFeedActivity extends AppCompatActivity implements View.On
                         firebaseAudioHelper = new FirebaseAudioHelper(Audio_uri);
                     }
                     firebaseImageHelper = new FirebaseImageHelper(ImageFileUri);
-                    firebaseDataHolder = new FirebaseDataHolder(Title, Description, Category, LoggedEmail, imageName, TokenID, Date_STR, LoggedUserName);
+//                    firebaseDataHolder = new FirebaseDataHolder(Title, Description, Category, LoggedEmail, imageName, TokenID, Date_STR, LoggedUserName);
                     AddArticleToFirebase(firebaseDataHolder, firebaseImageHelper, firebaseAudioHelper);
                 }
             }
@@ -559,19 +559,26 @@ public class PostToNewsFeedActivity extends AppCompatActivity implements View.On
         }
         //making the imageview pause button
         imageViewPlay.setImageResource(R.drawable.ic_pause);
+        if (!Config.Playing){
+            lastProgress=Config.lastProgress;
+        }
         seekBar.setProgress(lastProgress);
         mPlayer.seekTo(lastProgress);
         seekBar.setMax(mPlayer.getDuration());
         seekUpdation();
         chronometerTimer.start();
-
+        Config.Playing=true;
         /** once the audio is complete, timer is stopped here**/
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 imageViewPlay.setImageResource(R.drawable.ic_play);
                 isPlaying = false;
+                Config.Playing=isPlaying;
+                Config.PlayedNum+=1;
                 chronometerTimer.stop();
+                chronometerTimer.clearAnimation();
+                resetChronometer();
             }
         });
 
@@ -604,6 +611,16 @@ public class PostToNewsFeedActivity extends AppCompatActivity implements View.On
             seekUpdation();
         }
     };
+
+    public void resetChronometer(){
+        if (Config.PlayedNum==1&&!Config.Playing){
+            Config.PlayedNum=0;
+            chronometerTimer.setBase(SystemClock.elapsedRealtime());
+            chronometerTimer.stop();
+            lastProgress=0;
+            Config.lastProgress=lastProgress;
+        }
+    }
 
     private void seekUpdation() {
         if(mPlayer != null){

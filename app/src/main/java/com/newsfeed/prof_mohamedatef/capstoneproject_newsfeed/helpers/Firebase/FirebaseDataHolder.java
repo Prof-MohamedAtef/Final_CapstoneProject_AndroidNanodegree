@@ -84,12 +84,12 @@ public class FirebaseDataHolder implements Serializable {
     }
 
     @Ignore
-    public FirebaseDataHolder(String title_str, String description_str, String category_id_str, String userEmail, String image_str, String TokenID, String date, String user_name) {
+    public FirebaseDataHolder(String title_str, String description_str, String category_id_str, String userEmail, String TokenID, String date, String user_name) {
         this.title = title_str;
         this.description= description_str;
         this.category_id= category_id_str;
         this.user_email = userEmail;
-        this.image_file_uri = image_str;
+        this.image_file_uri = "NULL_KEY";
         this.token_id = TokenID;
         this.user_name= user_name;
         this.date= date;

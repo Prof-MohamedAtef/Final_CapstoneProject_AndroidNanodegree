@@ -25,6 +25,9 @@ public interface ArticlesDao {
     @Query("DELETE FROM Articles WHERE CATEGORY LIKE :CATEGORY")
     abstract int deleteByCATEGORY(String CATEGORY);
 
+    @Query("DELETE FROM Reports")
+    abstract int deleteAllFirebaseArticles();
+
     @Query("SELECT * From Articles where CATEGORY LIKE :CATEGORY")
     LiveData<List<ArticlesEntity>> getArticlesDataByCategory(String CATEGORY);
 

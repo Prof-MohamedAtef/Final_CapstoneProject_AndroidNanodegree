@@ -60,6 +60,7 @@ public class FirebaseRecyclerAdapter extends RecyclerView.Adapter<FirebaseRecycl
                             Picasso.with(mContext).load(feedItem.getImageFileUri())
                                     .error(R.drawable.breaking_news)
                                     .into(holder.Image);
+                            Config.position=position;
                         }
                     } else {
                         holder.Date.setText("");
@@ -76,6 +77,7 @@ public class FirebaseRecyclerAdapter extends RecyclerView.Adapter<FirebaseRecycl
                 public void onClick(View v) {
                     if (Config.ActivityNum!=0){
                         ((ArticlesMasterListFragment.OnFirebaseArticleSelectedListener) mContext).onFirebaseArticleSelected(feedItemList.get(position),TwoPane, position);
+//                        Config.position=position;
                     }
                 }
             });

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_authentication">10dp</dimen>
+    <dimen name="padding_urgent">4dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="toolbar_padding">8dp</dimen>
+    <dimen name="layout_margins">5dp</dimen>
     <dimen name="fab_press_translation_z">12dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="detail_appbar_height">320dp</dimen>
@@ -11,7 +14,7 @@
     <dimen name="actionbar_size">150dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!--<integer name="fragment_details_background_image_fade_millis">1000</integer>-->
-    <dimen name="card_elevation">1dp</dimen>
+    <dimen name="card_elevation">3dp</dimen>
     <dimen name="card_margin">5dp</dimen>
     <dimen name="top_margin">5dp</dimen>
     <dimen name="text_size">10sp</dimen>
@@ -21,5 +24,9 @@
     <dimen name="AppBarLayout_height">200dp</dimen>
     <dimen name="Overlap_top">240dp</dimen>
     <dimen name="text_padding">3dp</dimen>
-
+    <dimen name="nav_drawer_elevation">16dp</dimen>
+    <dimen name="button_elevation">5dp</dimen>
+    <dimen name="dialogue_elevation">24dp</dimen>
+    <dimen name="horizontal_view_height">2dp</dimen>
+    <dimen name="no_audio_image_dimens">150dp</dimen>
 </resources>

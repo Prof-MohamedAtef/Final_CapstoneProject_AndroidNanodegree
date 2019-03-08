@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/primaryColor"
+    android:background="@color/primaryDarkColor"
     android:autoMirrored="true"
     android:id="@+id/coordinator_layout">
     <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/AppBarLayout_height"
     android:gravity="center_vertical|center_horizontal"
-    android:background="@color/primaryColor"
+        android:background="@color/primaryDarkColor"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:elevation="@dimen/appbar_elevation">
     <android.support.design.widget.CollapsingToolbarLayout

@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                     finish();
                 }
-            }, 2500);
+            }, 2000);
         }
         else {
             new Handler().postDelayed(new Runnable() {
@@ -56,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                     finish();
                 }
-            },2500);
+            },2000);
         }
     }
 

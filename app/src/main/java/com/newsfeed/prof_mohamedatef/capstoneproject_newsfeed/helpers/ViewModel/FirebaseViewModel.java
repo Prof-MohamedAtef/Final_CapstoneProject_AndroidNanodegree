@@ -23,21 +23,14 @@ public class FirebaseViewModel extends AndroidViewModel {
 
     private final MediatorLiveData<List<ArticlesEntity>> mObserverMediatorLiveDataListFirebaseArticlesByCategory;
 
-//    private final MediatorLiveData<List<FirebaseDataHolder>> mObserverMediatorLiveDataListFirebaseArticles;
-
-
     public FirebaseViewModel(@NonNull Application application) {
         super(application);
         Config.application = application;
         this.mObserverMediatorLiveDataListFirebaseArticlesByCategory = new MediatorLiveData<>();
-//        this.mObserverMediatorLiveDataListFirebaseArticles=new MediatorLiveData<>();
-//        mObserverMediatorLiveDataListFirebaseArticles.setValue(null);
         this.mObserverMediatorLiveDataListFirebaseArticlesByCategory.setValue(null);
         LiveData<List<ArticlesEntity>> UrgentArticlesList = ((BasicApp) application).getRepository().LoadUrgentArticle(this.Category);
         mObserverMediatorLiveDataListFirebaseArticlesByCategory.addSource(UrgentArticlesList, mObserverMediatorLiveDataListFirebaseArticlesByCategory::setValue);
         LiveData<List<FirebaseDataHolder>> AllFirebaseArticles=((BasicApp) application).getRepository().getAllFirebaseArticlesData();
-//        mObserverMediatorLiveDataListFirebaseArticles.addSource(AllFirebaseArticles,);
-//        mObserverMediatorLiveDataListFirebaseArticles.
     }
 
     public void setCategory(String category) {

@@ -38,7 +38,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +65,6 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Dao.A
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Helpers.InsertClass;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.SessionManagement;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -75,15 +73,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.HomeActivity.ArticleType;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.HomeActivity.REPORTS;
-import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.PostToNewsFeedActivity.KEY_FIREBASE;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.POSTActivity;
 
 public class PublishToNewsFeed extends AppCompatActivity implements View.OnClickListener,
@@ -232,6 +227,8 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
     private boolean AudioHasUploaded=false;
     private String AudioURL;
     private String AudioURL_KEY="audioFileUri";
+    private String KEY_NULL="KEY_NULL";
+    private String ImageBitmap__KEY="ImageBitmap__KEY";
 
 
     private void InsertIntoFirebaseDatabase(FirebaseDataHolder firebaseDataHolder) {
@@ -296,26 +293,45 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         ImagePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Title= txt_ReportTitle.getText().toString();
-                Description=txt_ReportDescription.getText().toString();
+                Title = txt_ReportTitle.getText().toString();
+                Description = txt_ReportDescription.getText().toString();
                 Date_STR = Now.toString();
                 user = sessionManagement.getUserDetails();
                 if (user != null) {
                     LoggedEmail = user.get(SessionManagement.KEY_EMAIL);
-                    TokenID=user.get(SessionManagement.KEY_idToken);
-                    LoggedUserName=user.get(SessionManagement.KEY_NAME);
+                    TokenID = user.get(SessionManagement.KEY_idToken);
+                    LoggedUserName = user.get(SessionManagement.KEY_NAME);
                 }
-                if (Title != null && Description != null && Category != null &&Date_STR!=null&& ImageFileUri != null && imageName!=null&& LoggedEmail != null&&TokenID!=null&&LoggedUserName!=null) {//username/userID
-                    if (AudioFilePath !=null) {
-                        Uri Audio_uri = Uri.fromFile(new File(AudioFilePath));
-                        File AudioNaming = new File(AudioFilePath);
-                        AudioFileName = AudioNaming.getName();
-
-                        firebaseAudioHelper = new FirebaseAudioHelper(Audio_uri);
+                if (Date_STR != null && LoggedEmail != null && LoggedUserName != null) {
+                    if (Category != SELECT_CATEGORY) {
+                        if (Title != null) {
+                            if (Description != null) {
+                                if (ImageFileUri != null) {
+                                    if (AudioFilePath != null) {
+                                        Uri Audio_uri = Uri.fromFile(new File(AudioFilePath));
+                                        File AudioNaming = new File(AudioFilePath);
+                                        AudioFileName = AudioNaming.getName();
+                                        firebaseAudioHelper = new FirebaseAudioHelper(Audio_uri);
+                                    }
+                                    firebaseImageHelper = new FirebaseImageHelper(ImageFileUri);
+                                    if (TokenID != null) {
+                                        firebaseDataHolder = new FirebaseDataHolder(Title, Description, Category, LoggedEmail, TokenID, Date_STR, LoggedUserName);
+                                    } else {
+                                        firebaseDataHolder = new FirebaseDataHolder(Title, Description, Category, LoggedEmail, KEY_NULL, Date_STR, LoggedUserName);
+                                    }
+                                    AddArticleToFirebase(firebaseDataHolder, firebaseImageHelper, firebaseAudioHelper);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), getString(R.string.select_IMAGE), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), getString(R.string.description_selected), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.title_selected), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.select_article_category), Toast.LENGTH_SHORT).show();
                     }
-                    firebaseImageHelper = new FirebaseImageHelper(ImageFileUri);
-                    firebaseDataHolder = new FirebaseDataHolder(Title, Description, Category, LoggedEmail, imageName, TokenID, Date_STR, LoggedUserName);
-                    AddArticleToFirebase(firebaseDataHolder, firebaseImageHelper, firebaseAudioHelper);
                 }
             }
         });
@@ -346,17 +362,13 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         Categories_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Category=Categories_spinner.getSelectedItem().toString();
-//                Category= Config.CategoriesList.get(position).getCategoryName();
                 Category= Config.CategoriesList.get(position);
-//                Category_id=position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         Categories_spinner.requestFocus();
-//        connectToApi();
 
         ArrayList<String> PostTypes = new ArrayList<String>();
         PostTypes.add(SELECT_CATEGORY);
@@ -489,6 +501,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         AudioFilePath =  root.getAbsolutePath()
                 + "/VoiceRecorderSimplifiedCoding/Audios/" + String.valueOf(System.currentTimeMillis() + ".mp3");
         Log.d(FileName_KEY, AudioFilePath);
+        Config.AudioFilePath=AudioFilePath;
         mRecorder.setOutputFile(AudioFilePath);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
@@ -503,6 +516,16 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         //starting the chronometer
         chronometerTimer.setBase(SystemClock.elapsedRealtime());
         chronometerTimer.start();
+    }
+
+    public void resetChronometer(){
+        if (Config.PlayedNum==1&&!Config.Playing){
+            Config.PlayedNum=0;
+            chronometerTimer.setBase(SystemClock.elapsedRealtime());
+            chronometerTimer.stop();
+            lastProgress=0;
+            Config.lastProgress=lastProgress;
+        }
     }
 
     private void stopPlaying() {
@@ -558,19 +581,26 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         }
         //making the imageview pause button
         imageViewPlay.setImageResource(R.drawable.ic_pause);
+        if (!Config.Playing){
+            lastProgress=Config.lastProgress;
+        }
         seekBar.setProgress(lastProgress);
         mPlayer.seekTo(lastProgress);
         seekBar.setMax(mPlayer.getDuration());
         seekUpdation();
         chronometerTimer.start();
-
+        Config.Playing=true;
         /** once the audio is complete, timer is stopped here**/
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 imageViewPlay.setImageResource(R.drawable.ic_play);
                 isPlaying = false;
+                Config.Playing=isPlaying;
+                Config.PlayedNum+=1;
                 chronometerTimer.stop();
+                chronometerTimer.clearAnimation();
+                resetChronometer();
             }
         });
 
@@ -633,6 +663,8 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         startActivityForResult(chooserIntent, SELECT_PICTURE);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -646,6 +678,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                 fileNaming=new File(imageFileName);
                 imageName= fileNaming.getName();
                 ImageFileUri =data.getData();
+                Config.ImageFileUri=ImageFileUri;
                 imageBitmap = (Bitmap) extras.get(DATA_KEY);
                 setBitmapToImageView(imageBitmap);
                 try{
@@ -659,6 +692,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                 if (data != null) {
                     Bundle selectedImage = data.getExtras();
                     ImageFileUri=data.getData();
+                    Config.ImageFileUri=ImageFileUri;
                     imageFileName=data.getData().getPath();
                     fileNaming=new File(imageFileName);
                     imageName= fileNaming.getName();
@@ -675,7 +709,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                     if (selectedImagePath != null) {
                         bitmap = BitmapFactory.decodeFile(selectedImagePath);
                         bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
-                        ImageReport.setImageBitmap(bitmap);
+                        setBitmapToImageView(bitmap);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.canceled),
@@ -685,6 +719,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                 selectedImage = data.getData();
 //                AudioFilePath= selectedImage.getPath();
                 ImageFileUri =data.getData();
+                Config.ImageFileUri=ImageFileUri;
                 imageFileName=data.getData().getPath();
                 fileNaming=new File(imageFileName);
                 imageName= fileNaming.getName();
@@ -697,6 +732,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                 fileNaming=new File(imageFileName);
                 imageName= fileNaming.getName();
                 ImageFileUri =data.getData();
+                Config.ImageFileUri=ImageFileUri;
                 filePathColumn = new String[]{MediaStore.Images.Media.DATA};
                 if (selectedImage!=null){
                     imageBitmap= LoadThenDecodeBitmap();
@@ -707,6 +743,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
                     fileNaming=new File(imageFileName);
                     imageName= fileNaming.getName();
                     ImageFileUri =data.getData();
+                    Config.ImageFileUri=ImageFileUri;
                     filePathColumn = new String[]{MediaStore.Images.Media.DATA};
                     imageBitmap=(Bitmap)selectedImage.get(DATA_KEY);
                     Config.imageBitmap=imageBitmap.toString();
@@ -743,16 +780,44 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
             if (firebaseAudioHelper!=null){
                 UploadAudioFileToFirebase(firebaseAudioHelper);
             }
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                }
-//            },3000);
         }else {
-            // Show Snack
             snackbar=NetCut();
             snackBarLauncher.SnackBarInitializer(snackbar);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState!=null){
+            ImageFileUri= Uri.parse(savedInstanceState.getString(ImageURL_KEY));
+            AudioFilePath=savedInstanceState.getString(AudioURL_KEY);
+            if (ImageFileUri!=null){
+                setUriToImageView(ImageFileUri);
+            }
+            if (AudioFilePath!=null){
+                linearLayoutPlay.setVisibility(View.VISIBLE);
+                imageViewPlay.setOnClickListener(this);
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (Config.ImageFileUri!=null){
+            outState.putString(ImageURL_KEY, Config.ImageFileUri.toString());
+        }
+        if (Config.AudioFilePath!=null){
+            outState.putString(AudioURL_KEY, Config.AudioFilePath.toString());
+        }
+    }
+
+    private void setUriToImageView(Uri uriToImageView) {
+        if (ImageReport.getDrawable()==null){
+            ImageReport.setImageURI(uriToImageView);
+        }else {
+            ImageReport.setImageURI(uriToImageView);
         }
     }
 
@@ -976,6 +1041,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
     }
 
     private void setBitmapToImageView(Bitmap imageBitmap) {
+        Config.Bitmap_=imageBitmap;
         if (ImageReport.getDrawable()==null){
             ImageReport.setImageBitmap(imageBitmap);
             HasImage=true;

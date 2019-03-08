@@ -3,6 +3,7 @@ package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities;
 import android.app.ActivityOptions;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -96,6 +97,16 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (Config.ArticlesEntity!=null){
+            outState.putSerializable(OtherTypes_KEY, Config.ArticlesEntity);
+        }else {
+            outState.putSerializable(KEY_FIREBASE, Config.FirebaseDataHolder);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_types_list);
@@ -119,6 +130,7 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
         mDatabase= AppDatabase.getAppDatabase(getApplicationContext(),mAppExecutors);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.back_left_arrow_circular_button_outline));
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -207,7 +219,6 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
             NewsApiVerifier=URL;
             CategoryName=BUSINESS;
         }
-
         Bundle bundle2=new Bundle();
         bundle2.putString(URL_KEY,URL);
         bundle2.putString(NEWSAPI_KEY,NewsApiVerifier);
@@ -219,9 +230,21 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.master_list_fragment, articlesMasterListFragment, Frags_KEY)
                 .commit();
-
         fragmentUrgentArticles.setArguments(bundle2);
         if (findViewById(R.id.coordinator_layout_twoPane)!=null){
+            if (savedInstanceState!=null){
+                if (Config.RetrieveFirebaseData){
+                    Config.FirebaseDataHolder = (FirebaseDataHolder) savedInstanceState.getSerializable(KEY_FIREBASE);
+                    bundle2.putSerializable(KEY_FIREBASE, Config.FirebaseDataHolder);
+                    fragmentArticleViewer.setArguments(bundle2);
+                    fragmentSoundPlayer.setArguments(bundle2);
+                }else {
+                    Config.ArticlesEntity = (ArticlesEntity) savedInstanceState.getSerializable(OtherTypes_KEY);
+                    bundle2.putSerializable(OtherTypes_KEY, Config.ArticlesEntity);
+                    fragmentArticleViewer.setArguments(bundle2);
+                    fragmentSoundPlayer.setArguments(bundle2);
+                }
+            }
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.Audio_container, fragmentSoundPlayer, Frags_KEY)
                     .commit();
@@ -240,6 +263,7 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
             Bundle twoPaneExtras = new Bundle();
             twoPaneExtras.putBoolean(TwoPANEExtras_KEY,TwoPane);
             twoPaneExtras.putSerializable(OtherTypes_KEY, articlesEntity);
+            Config.ArticlesEntity=articlesEntity;
             twoPaneExtras.putInt(Position_KEY,position);
             fragmentSoundPlayer=new FragmentSoundPlayer();
             fragmentArticleViewer=new FragmentArticleViewer();
@@ -304,6 +328,7 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
             Config.RetrieveFirebaseData=true;
             Bundle twoPaneExtras = new Bundle();
             twoPaneExtras.putSerializable(KEY_FIREBASE,firebaseDataHolder);
+            Config.FirebaseDataHolder=firebaseDataHolder;
             twoPaneExtras.putBoolean(TwoPANEExtras_KEY, TwoPane);
             twoPaneExtras.putInt(Position_KEY,position);
             FragmentSoundPlayer soundPlayer=new FragmentSoundPlayer();

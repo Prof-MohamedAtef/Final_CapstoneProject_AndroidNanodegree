@@ -26,7 +26,7 @@ public class InsertLocallyFirebaseAsyncTask extends AsyncTask<Void, Void, Boolea
     private FirebaseDataHolder firebaseDataHolder;
     private final String CategoryKey;
     private final FirebaseImageHelper firebaseImageHelper;
-    private LiveData<List<ArticlesEntity>> reportssRoomList;
+    private LiveData<List<FirebaseDataHolder>> reportssRoomList;
     final boolean[] Inserted = {false};
     public OnFirebaseInsertedLocallyCompleted onFirebaseInsertedLocallyCompleted;
     private String NULL_KEY="NULL_KEY";
@@ -75,14 +75,14 @@ public class InsertLocallyFirebaseAsyncTask extends AsyncTask<Void, Void, Boolea
 
         if (firebaseDataHolder!=null){
             if (Config.ActivityNum==3){
-                reportssRoomList = appDatabase.articlesDao().getArticlesDataByCategory(CategoryKey);
+                reportssRoomList = appDatabase.articlesDao().getAllFirebaseArticles();
                 reportssRoomList.observe((LifecycleOwner) onFirebaseInsertedLocallyCompleted, existingArticles -> {
                     InsertOperations(Inserted, existingArticles);
                 });
             }
         } else if (firebaseDataHolderArrayList!=null){
             if (Config.ActivityNum==1){
-                reportssRoomList = appDatabase.articlesDao().getArticlesDataByCategory(CategoryKey);
+                reportssRoomList = appDatabase.articlesDao().getAllFirebaseArticles();
                 reportssRoomList.observe((LifecycleOwner) onFirebaseInsertedLocallyCompleted, existingArticles -> {
                     DeleteInsertOperations(Inserted, existingArticles);
                 });
@@ -94,9 +94,9 @@ public class InsertLocallyFirebaseAsyncTask extends AsyncTask<Void, Void, Boolea
     private boolean LoopOverList(List<FirebaseDataHolder> firebaseDataHolderArrayList) {
         for (FirebaseDataHolder firebaseDataHolder:firebaseDataHolderArrayList){
             splitParameteres(firebaseDataHolder);
-            if (CategoryKey.equals(CategoryKey)) {
-                firebaseDataHolder.setCategoryID(CategoryKey);
-            }
+//            if (CategoryKey.equals(CategoryKey)) {
+//                firebaseDataHolder.setCategoryID(CategoryKey);
+//            }
             x = appDatabase.articlesDao().InsertFirebaseArticle(firebaseDataHolder);
         }
         if (x>0){
@@ -107,9 +107,9 @@ public class InsertLocallyFirebaseAsyncTask extends AsyncTask<Void, Void, Boolea
         return Inserted[0];
     }
 
-    private void DeleteInsertOperations(boolean[] inserted, List<ArticlesEntity> existingArticles) {
+    private void DeleteInsertOperations(boolean[] inserted, List<FirebaseDataHolder> existingArticles) {
         if (existingArticles != null && existingArticles.size() > 0 && !existingArticles.isEmpty()) {
-            int deleted = appDatabase.articlesDao().deleteByCATEGORY(CategoryKey);
+            int deleted = appDatabase.articlesDao().deleteAllFirebaseArticles();
             if (deleted > 0) {
                 inserted[0] = LoopOverList(firebaseDataHolderArrayList);
                 if (inserted[0]) {
@@ -138,7 +138,7 @@ public class InsertLocallyFirebaseAsyncTask extends AsyncTask<Void, Void, Boolea
         }
     }
 
-    private void InsertOperations(boolean[] inserted, List<ArticlesEntity> existingArticles) {
+    private void InsertOperations(boolean[] inserted, List<FirebaseDataHolder> existingArticles) {
         inserted[0] = IsArrayInserted();
         if (inserted[0]) {
             inserted[0] = true;

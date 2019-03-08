@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:card_view="http://schemas.android.com/apk/res-auto"
 android:orientation="vertical"
-android:padding="10dp"
+android:padding="@dimen/card_margin"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 <android.support.v7.widget.CardView
@@ -11,10 +11,10 @@ android:layout_height="match_parent">
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical|center_horizontal"
     android:layout_margin="@dimen/card_margin"
-    android:elevation="3dp"
-    android:paddingBottom="4dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
+    android:elevation="@dimen/card_elevation"
+    android:paddingBottom="@dimen/padding_urgent"
+    android:paddingLeft="@dimen/padding_urgent"
+    android:paddingRight="@dimen/padding_urgent"
     card_view:cardCornerRadius="@dimen/card_album_radius">
     <LinearLayout
         android:padding="@dimen/text_padding"

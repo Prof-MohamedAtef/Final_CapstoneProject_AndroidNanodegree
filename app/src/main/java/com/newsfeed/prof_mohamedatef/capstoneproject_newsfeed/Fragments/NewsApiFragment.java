@@ -88,20 +88,7 @@ SnackBarLauncher{
                                 }
                             });
                         }else {
-                            // no internet fragment
-//                            getActivity().getSupportFragmentManager().beginTransaction()
-//                                    .replace(R.id.container_frame, noInternetFragment, "newsApi")
-//                                    .commit();
                         }
-//                        else if (articleEntities.size()==0){
-//                            final Handler handler = new Handler();
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-                                    // Do something after 5s = 5000ms
-//                                }
-//                            }, 15000);
-//                        }
                     }
                 }
             });

@@ -34,13 +34,18 @@
     <string name="text_write_external_permission">This app will Write on The External Storage of this device</string>
     <string name="ok">Okay</string>
     <string name="appwidget_text">WidgetExample</string>
-    <string name="no_internet">Internet Disabled</string>
+    <string name="no_internet">Internet Disabled!</string>
+    <string name="sound_internet">Internet Connection Required to Play Sound</string>
     <string name="reload">Internet Disabled</string>
     <string name="source_icon">Source Icon</string>
     <string name="retry">Retry</string>
     <string name="loadedsuccess">Loaded Successfully</string>
     <string name="tap2retry">Please, Press to retry!</string>
     <string name="recording_saved_successfully">Recording saved successfully</string>
+    <string name="title_selected">Enter Article Title!</string>
+    <string name="description_selected">Enter Description!</string>
+    <string name="select_article_category">Select Article Category Please!</string>
+    <string name="select_IMAGE">Take an Article Photo!</string>
 
 
     <!--drawer-->
