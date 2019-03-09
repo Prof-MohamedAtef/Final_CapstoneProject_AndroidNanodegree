@@ -64,53 +64,50 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     public void onBindViewHolder(@NonNull final ViewHOlder holder, final int position) {
         if (feedItemList != null && feedItemList.size() > 0) {
             final ArticlesEntity feedItem = feedItemList.get(position);
-            if (feedItem.getAUTHOR() != null && feedItem.getTITLE() != null) {
-                if (feedItem.getAUTHOR().equals(NULL_KEY)) {
-                    holder.Author.setText(mContext.getResources().getString(R.string.author_not_identified));
-                } else {
-                    holder.Author.setText(feedItem.getAUTHOR());
-                }
-                if (feedItem.getTITLE().equals(NULL_KEY)) {
-                    holder.Title.setText(mContext.getResources().getString(R.string.not_identified));
-                } else {
-                    holder.Title.setText(feedItem.getTITLE());
-                }
-                if (feedItem.getDESCRIPTION() != null && feedItem.getSOURCE_NAME() != null) {
-                    if (feedItem.getDESCRIPTION().equals(NULL_KEY)) {
-                        holder.Description.setText(mContext.getResources().getString(R.string.not_identified));
+            if (mContext!=null){
+                if (feedItem.getAUTHOR() != null && feedItem.getTITLE() != null) {
+                    if (feedItem.getAUTHOR().equals(NULL_KEY)) {
+                        holder.Author.setText(mContext.getResources().getString(R.string.author_not_identified));
                     } else {
-                        holder.Description.setText(feedItem.getDESCRIPTION());
+                        holder.Author.setText(feedItem.getAUTHOR());
                     }
-                    if (feedItem.getSOURCE_NAME().equals(NULL_KEY)) {
-                        holder.SourceName.setText(mContext.getResources().getString(R.string.not_identified));
+                    if (feedItem.getTITLE().equals(NULL_KEY)) {
+                        holder.Title.setText(mContext.getResources().getString(R.string.not_identified));
                     } else {
-                        holder.SourceName.setText(feedItem.getSOURCE_NAME());
+                        holder.Title.setText(feedItem.getTITLE());
                     }
-                    if (feedItem.getPUBLISHED_AT() != null && feedItem.getARTICLE_URL() != null && feedItem.getIMAGE_URL() != null) {
-                        if (feedItem.getPUBLISHED_AT().equals(NULL_KEY)) {
-                            holder.Date.setText(mContext.getResources().getString(R.string.not_identified));
+                    if (feedItem.getDESCRIPTION() != null) {
+                        if (feedItem.getDESCRIPTION().equals(NULL_KEY)) {
+                            holder.Description.setText(mContext.getResources().getString(R.string.not_identified));
                         } else {
-                            holder.Date.setText(feedItem.getPUBLISHED_AT());
+                            holder.Description.setText(feedItem.getDESCRIPTION());
                         }
-                        if (feedItem.getIMAGE_URL()!=null&&!feedItem.getIMAGE_URL().isEmpty()&&feedItem.getIMAGE_URL()!=""&&feedItem.getIMAGE_URL()!=" "){
-                            Picasso.with(mContext).load(feedItem.getIMAGE_URL())
-                                    .error(R.drawable.breaking_news)
-                                    .into(holder.Image);
-                            Config.position=position;
-                        }else {
-                            Picasso.with(mContext).load(R.drawable.breaking_news)
-                                    .into(holder.Image);
+                        if (feedItem.getPUBLISHED_AT() != null && feedItem.getARTICLE_URL() != null && feedItem.getIMAGE_URL() != null) {
+                            if (feedItem.getPUBLISHED_AT().equals(NULL_KEY)) {
+                                holder.Date.setText(mContext.getResources().getString(R.string.not_identified));
+                            } else {
+                                holder.Date.setText(feedItem.getPUBLISHED_AT());
+                            }
+                            if (feedItem.getIMAGE_URL()!=null&&!feedItem.getIMAGE_URL().isEmpty()&&feedItem.getIMAGE_URL()!=""&&feedItem.getIMAGE_URL()!=" "){
+                                Picasso.with(mContext).load(feedItem.getIMAGE_URL())
+                                        .error(R.drawable.breaking_news)
+                                        .into(holder.Image);
+                                Config.PosNewsFragment=position;
+                            }else {
+                                Picasso.with(mContext).load(R.drawable.breaking_news)
+                                        .into(holder.Image);
+                            }
+                        } else {
+                            holder.Date.setText("");
                         }
                     } else {
-                        holder.Date.setText("");
+                        holder.Description.setText("");
+
                     }
                 } else {
-                    holder.Description.setText("");
-                    holder.SourceName.setText("");
+                    holder.Author.setText("");
+                    holder.Title.setText("");
                 }
-            } else {
-                holder.Author.setText("");
-                holder.Title.setText("");
             }
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -151,7 +148,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
         protected TextView Author;
         protected TextView Date;
         protected TextView Description;
-        protected TextView SourceName;
+
         protected ImageView Image;
         protected WebView browser;
 
@@ -164,7 +161,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
             this.Author= (TextView) converview.findViewById(R.id.author);
             this.Date= (TextView) converview.findViewById(R.id.date_publish);
             this.Description= (TextView) converview.findViewById(R.id.description);
-            this.SourceName= (TextView) converview.findViewById(R.id.source_name);
+
             this.Image =(ImageView)converview.findViewById(R.id.image);
             this.linearLayout=(LinearLayout)converview.findViewById(R.id.linearLayout);
             this.browser= (WebView) converview.findViewById(R.id.webview);

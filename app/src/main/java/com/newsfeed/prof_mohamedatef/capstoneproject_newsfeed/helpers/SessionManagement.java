@@ -1,7 +1,11 @@
 package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.SplashActivity;
+
 import java.util.HashMap;
 
 /**
@@ -36,15 +40,15 @@ public class SessionManagement {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-//        Intent i = new Intent(_context, SplashScreen.class);
+        Intent i = new Intent(_context, SplashActivity.class);
         // Closing all the Activities
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // Add new Flag to start new Activity
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
-//        _context.startActivity(i);
+        _context.startActivity(i);
     }
 
 

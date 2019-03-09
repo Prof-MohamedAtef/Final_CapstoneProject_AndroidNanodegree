@@ -15,7 +15,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!--<integer name="fragment_details_background_image_fade_millis">1000</integer>-->
     <dimen name="card_elevation">3dp</dimen>
-    <dimen name="card_margin">5dp</dimen>
+    <dimen name="card_margin">4dp</dimen>
     <dimen name="top_margin">5dp</dimen>
     <dimen name="text_size">10sp</dimen>
     <dimen name="card_album_radius">0dp</dimen>
@@ -29,4 +29,7 @@
     <dimen name="dialogue_elevation">24dp</dimen>
     <dimen name="horizontal_view_height">2dp</dimen>
     <dimen name="no_audio_image_dimens">150dp</dimen>
+    <dimen name="text_small">8dp</dimen>
+    <dimen name="text_normal">13dp</dimen>
+    <dimen name="text_huge">16dp</dimen>
 </resources>

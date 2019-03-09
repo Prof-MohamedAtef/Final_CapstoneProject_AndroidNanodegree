@@ -933,6 +933,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         Intent intent=new Intent(getApplicationContext(), ArticleTypesListActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     private Bitmap LoadThenDecodeBitmap(){

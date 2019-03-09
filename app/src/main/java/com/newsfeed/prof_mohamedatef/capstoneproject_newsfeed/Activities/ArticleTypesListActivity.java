@@ -48,8 +48,7 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.
 
 public class ArticleTypesListActivity extends AppCompatActivity implements
         ArticlesMasterListFragment.OnSelectedArticleListener,
-        ArticlesMasterListFragment.OnFirebaseArticleSelectedListener,
-        SwipeRefreshLayout.OnRefreshListener{
+        ArticlesMasterListFragment.OnFirebaseArticleSelectedListener{
 
     public static String WebHoseVerifier="null", NewsApiVerifier="null";
     private String URL;
@@ -67,7 +66,7 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
     private String ArticleType_;
     public static String TwoPANEExtras_KEY="twoPaneExtras";
     private String Position_KEY="position";
-    private String ArticleInfo_KEY="ArticleInfo";
+    public static String ArticleInfo_KEY="ArticleInfo";
     public static final String Frags_KEY="frags";
     private String SoundFrag_KEY="Sound";
     private String ArticleFrag_KEY="Article";
@@ -90,6 +89,8 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
     private AppExecutors mAppExecutors;
     private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
     public static String OtherTypes_KEY="OtherTypes_KEY";
+    public static String ArticleEntityInfo_KEY="ArticleEntityInfo_KEY";
+    public static String ArticleFirebaseInfo_KEY="ArticleFirebaseInfo_KEY";
 
     @Override
     public void onStart() {
@@ -277,16 +278,12 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
                     .commit();
         }else if (!mTwoPaneUi){
             Intent intent = new Intent(this, ArticleDetailsActivity.class)
-                    .putExtra(ArticleInfo_KEY, articlesEntity)
+                    .putExtra(OtherTypes_KEY, articlesEntity)
                     .putExtra(Position_KEY, position);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(intent);
+            Config.ArticlesEntity_Obj=OtherTypes_KEY;
         }
-    }
-
-    @Override
-    public void onRefresh() {
-        Toast.makeText(getApplicationContext(),getString(R.string.okay), Toast.LENGTH_LONG);
     }
 
     private Snackbar NetCut() {
@@ -343,10 +340,11 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
                     .commit();
         }else if (!mTwoPaneUi){
             Intent intent = new Intent(this, ArticleDetailsActivity.class)
-                    .putExtra(ArticleInfo_KEY, firebaseDataHolder)
+                    .putExtra(KEY_FIREBASE, firebaseDataHolder)
                     .putExtra(Position_KEY, position);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(intent);
+            Config.ArticlesEntity_Obj=KEY_FIREBASE;
         }
     }
 }

@@ -351,8 +351,12 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
         super.onPostExecute(result);
         if (result!=null){
             onWebHoseTaskCompleted.onWebHoseTaskCompleted(result);
-            if (dialog.isShowing()){
-                dialog.dismiss();
+            if (dialog!=null){
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }else {
+                    dialog.dismiss();
+                }
             }
         }
     }
@@ -375,8 +379,14 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
             if (dialog!=null&&dialog.isShowing()){
                 this.dialog.dismiss();
             }else {
-                this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
-                this.dialog.show();
+                if (dialog!= null){
+                    dialog.dismiss();
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    this.dialog.show();
+                }else {
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    this.dialog.show();
+                }
             }
         }catch (Exception e){
             Log.v(LOG_TAG, "Problem in ProgressDialogue" );

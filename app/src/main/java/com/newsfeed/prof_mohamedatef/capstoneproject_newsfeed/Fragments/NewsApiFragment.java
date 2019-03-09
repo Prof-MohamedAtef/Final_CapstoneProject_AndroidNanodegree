@@ -41,6 +41,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.PosNewsFragment;
+import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.mContext;
+
 /**
  * Created by Prof-Mohamed Atef on 1/3/2019.
  */
@@ -59,7 +62,7 @@ SnackBarLauncher{
     LinearLayout LinearUiIdentifier;
     private Cursor cursor;
     private ArrayList<ArticlesEntity> UrgentArticlesList;
-    private String KEY_POSITION="KEY_POSITION";
+    private String KEY_POSITION_MainFragment="KEY_POSITION_MainFragment";
     RecyclerView.LayoutManager mLayoutManager;
     public static String KEY_Urgent="KEY_Urgent";
     private GridLayoutManager layoutManager;
@@ -103,6 +106,7 @@ SnackBarLauncher{
             if (UrgentArticlesList!=null){
                 PopulateUrgentArticles(UrgentArticlesList);
             }
+            PosNewsFragment= savedInstanceState.getInt(KEY_POSITION_MainFragment);
         }
     }
 
@@ -183,6 +187,7 @@ SnackBarLauncher{
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(KEY_Urgent,UrgentArticlesList);
+        outState.putInt(KEY_POSITION_MainFragment,Config.PosNewsFragment);
     }
 
     @Override
@@ -208,6 +213,7 @@ SnackBarLauncher{
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        recyclerView.smoothScrollToPosition(PosNewsFragment);
         snackBarLauncher.SnackBarLoadedData(Config.LinearUiIdentifier,Config.mContext);
     }
 

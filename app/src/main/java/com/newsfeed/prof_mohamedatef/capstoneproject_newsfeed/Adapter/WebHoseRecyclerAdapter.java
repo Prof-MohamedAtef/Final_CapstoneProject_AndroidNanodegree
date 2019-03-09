@@ -52,32 +52,32 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
     public void onBindViewHolder(@NonNull ViewHOlder holder, final int position) {
         final ArticlesEntity feedItem = feedItemList.get(position);
         if (feedItem!=null){
-            if (feedItem.getAUTHOR()!=null&&feedItem.getTITLE()!=null){
-                holder.Author.setText(feedItem.getAUTHOR());
-                holder.Title.setText(feedItem.getTITLE());
-                if (feedItem.getDESCRIPTION()!=null&&feedItem.getSOURCE_NAME()!=null){
-                    holder.Description.setText(feedItem.getDESCRIPTION());
-                    holder.SourceName.setText(feedItem.getSOURCE_NAME());
-                    String ImagePath=feedItem.getIMAGE_URL().toString();
-                    if (feedItem.getPUBLISHED_AT()!=null&&feedItem.getIMAGE_URL()!=null){
-                        holder.Date.setText(feedItem.getPUBLISHED_AT());
-                        if (ImagePath!=null&&!ImagePath.equals("")){
-                            Picasso.with(mContext).load(ImagePath)
-                                    .error(R.drawable.stanly)
-                                    .into(holder.Image);
-                            Config.position=position;
-                        }else {
-                            Picasso.with(mContext).load(R.drawable.stanly).into(holder.Image);
-                            Log.v(LOG_TAG, "No URL To Image Returned" );
-                        }
-                    }else {holder.Date.setText("");}
+            if (mContext!=null){
+                if (feedItem.getAUTHOR()!=null&&feedItem.getTITLE()!=null){
+                    holder.Author.setText(feedItem.getAUTHOR());
+                    holder.Title.setText(feedItem.getTITLE());
+                    if (feedItem.getDESCRIPTION()!=null){
+                        holder.Description.setText(feedItem.getDESCRIPTION());
+                        String ImagePath=feedItem.getIMAGE_URL().toString();
+                        if (feedItem.getPUBLISHED_AT()!=null&&feedItem.getIMAGE_URL()!=null){
+                            holder.Date.setText(feedItem.getPUBLISHED_AT());
+                            if (ImagePath!=null&&!ImagePath.equals("")){
+                                Picasso.with(mContext).load(ImagePath)
+                                        .error(R.drawable.stanly)
+                                        .into(holder.Image);
+                                Config.positionWebHose=position;
+                            }else {
+                                Picasso.with(mContext).load(R.drawable.stanly).into(holder.Image);
+                                Log.v(LOG_TAG, "No URL To Image Returned" );
+                            }
+                        }else {holder.Date.setText("");}
+                    }else {
+                        holder.Description.setText("");
+                    }
                 }else {
-                    holder.Description.setText("");
-                    holder.SourceName.setText("");
+                    holder.Author.setText("");
+                    holder.Title.setText("");
                 }
-            }else {
-                holder.Author.setText("");
-                holder.Title.setText("");
             }
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,7 +112,6 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
         protected TextView Author;
         protected TextView Date;
         protected TextView Description;
-        protected TextView SourceName;
         protected ImageView Image;
         protected LinearLayout linearLayout;
         protected WebView browser;
@@ -126,7 +125,6 @@ public class WebHoseRecyclerAdapter extends  RecyclerView.Adapter<WebHoseRecycle
             this.Author= (TextView) converview.findViewById(R.id.author);
             this.Date= (TextView) converview.findViewById(R.id.date_publish);
             this.Description= (TextView) converview.findViewById(R.id.description);
-            this.SourceName= (TextView) converview.findViewById(R.id.source_name);
             this.Image =(ImageView)converview.findViewById(R.id.image);
             this.linearLayout=(LinearLayout)converview.findViewById(R.id.linearLayout);
             this.browser= (WebView) converview.findViewById(R.id.webview);

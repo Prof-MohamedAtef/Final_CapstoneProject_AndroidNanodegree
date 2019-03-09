@@ -75,4 +75,8 @@ public class Config {
     public static boolean Playing;
     public static int lastProgress;
     public static int Pos;
+    public static int PosNewsFragment;
+    public static int positionFirebase;
+    public static int positionWebHose;
+    public static String ArticlesEntity_Obj;
 }

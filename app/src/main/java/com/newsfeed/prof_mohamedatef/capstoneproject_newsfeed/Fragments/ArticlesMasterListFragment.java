@@ -107,7 +107,10 @@ public class ArticlesMasterListFragment extends Fragment implements
     private FirebaseDataHolder firebaseDataHolder;
     private DatabaseReference mDatabase;
     private FirebaseViewModel firebaseViewModel;
-    private String KEY_POSITION;
+    private String KEY_POSITION_TYPES="KEY_POSITION_TYPES";
+    private java.lang.String KEY_POSITION_FIREBASE="KEY_POSITION_FIREBASE";
+    private String KEY_POSITION_WebHose="KEY_POSITION_WebHose";
+    private String KEY_POSITION_NewFragment="KEY_POSITION_NewFragment";
 
     public ArticlesMasterListFragment(){
 
@@ -125,7 +128,9 @@ public class ArticlesMasterListFragment extends Fragment implements
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState!=null){
-            Config.Pos= savedInstanceState.getInt(KEY_POSITION);
+            Config.positionFirebase= savedInstanceState.getInt(KEY_POSITION_FIREBASE);
+            Config.positionWebHose= savedInstanceState.getInt(KEY_POSITION_WebHose);
+            Config.PosNewsFragment= savedInstanceState.getInt(KEY_POSITION_NewFragment);
         }
     }
 
@@ -137,7 +142,9 @@ public class ArticlesMasterListFragment extends Fragment implements
         }else if (TypesArticlesList!=null){
             outState.putSerializable(KEY_ArticleTypeArray, TypesArticlesList);
         }
-        outState.putInt(KEY_POSITION,Config.position);
+        outState.putInt(KEY_POSITION_FIREBASE,Config.positionFirebase);
+        outState.putInt(KEY_POSITION_WebHose,Config.positionWebHose);
+        outState.putInt(KEY_POSITION_NewFragment,Config.PosNewsFragment);
     }
 
     public List<FirebaseDataHolder> FetchDataFromFirebase() {
@@ -234,7 +241,9 @@ public class ArticlesMasterListFragment extends Fragment implements
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setHasStableIds(true);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.smoothScrollToPosition(Config.Pos);
+        recyclerView.smoothScrollToPosition(Config.PosNewsFragment);
+        Config.positionWebHose=0;
+        Config.positionFirebase=0;
         Config.FragmentNewsApiNum=FragmentNewsApiNum;
     }
 
@@ -324,7 +333,9 @@ public class ArticlesMasterListFragment extends Fragment implements
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(mAdapter);
-            recyclerView.smoothScrollToPosition(Config.Pos);
+            recyclerView.smoothScrollToPosition(Config.positionWebHose);
+            Config.PosNewsFragment=0;
+            Config.positionFirebase=0;
             Config.FragmentWebHoseApiNum=FragmentWebHoseApiNum;
             TypesArticlesList=result;
             Config.ArrArticle=result;
@@ -339,7 +350,9 @@ public class ArticlesMasterListFragment extends Fragment implements
         recyclerView.computeVerticalScrollOffset();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        recyclerView.smoothScrollToPosition(Config.Pos);
+        recyclerView.smoothScrollToPosition(Config.positionFirebase);
+        Config.positionWebHose=0;
+        Config.PosNewsFragment=0;
     }
 
     private void PopulateFirebaseList(List<FirebaseDataHolder> result) {

@@ -1,8 +1,11 @@
 package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
@@ -72,6 +75,7 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     public OnNewsTaskCompleted onNewsTaskCompleted;
     OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted;
     Context mContext;
+    private Activity activity;
 
     public NewsApiAsyncTask(AppDatabase database, OnNewsTaskCompleted onTaskCompleted, Context context, String Category){
         this.onNewsTaskCompleted=onTaskCompleted;
@@ -91,11 +95,19 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     protected void onPreExecute() {
         super.onPreExecute();
         try{
+            dialog.setOwnerActivity((Activity) mContext);
+            activity=dialog.getOwnerActivity();
             if (dialog!=null&&dialog.isShowing()){
                 this.dialog.dismiss();
             }else {
-                this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
-                this.dialog.show();
+                if (dialog!= null){
+                    dialog.dismiss();
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    this.dialog.show();
+                }else {
+                    this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
+                    this.dialog.show();
+                }
             }
         }catch (Exception e){
             Log.v(LOG_TAG, "Problem in ProgressDialogue" );
@@ -286,11 +298,26 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
         if (result != null) {
             if (onNewsTaskCompleted!=null){
                 onNewsTaskCompleted.onNewsApiTaskCompleted(result);
+                if (activity!=null&&!activity.isFinishing()){
+                    if (dialog!=null){
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }else {
+                            dialog.dismiss();
+                        }
+                    }
+                }
             }else if (onNewsUrgentTaskCompleted!=null){
                 onNewsUrgentTaskCompleted.onNewsUrgentApiTaskCompleted(result);
-            }
-            if (dialog.isShowing()){
-                dialog.dismiss();
+                if (activity!=null&&!activity.isFinishing()){
+                    if (dialog!=null){
+                        if (dialog.isShowing()){
+                            dialog.dismiss();
+                        }else {
+                            dialog.dismiss();
+                        }
+                    }
+                }
             }
         }
     }

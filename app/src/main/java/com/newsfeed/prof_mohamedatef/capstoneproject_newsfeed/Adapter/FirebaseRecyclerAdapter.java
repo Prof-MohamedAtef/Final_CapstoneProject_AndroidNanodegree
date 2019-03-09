@@ -50,28 +50,32 @@ public class FirebaseRecyclerAdapter extends RecyclerView.Adapter<FirebaseRecycl
     public void onBindViewHolder(@NonNull ViewHOlder holder, final int position) {
         final FirebaseDataHolder feedItem = feedItemList.get(position);
         if (feedItem != null) {
-            if (feedItem.getUserName() != null) {
-                holder.Author.setText(feedItem.getUserName());
-                if (feedItem.getCategoryID() != null) {
-                    holder.SourceName.setText(feedItem.getCategoryID());
-                    if (feedItem.getDate() != null ) {
-                        holder.Date.setText(feedItem.getDate());
-                        if (feedItem.getImageFileUri()!=null){
-                            Picasso.with(mContext).load(feedItem.getImageFileUri())
-                                    .error(R.drawable.breaking_news)
-                                    .into(holder.Image);
-                            Config.position=position;
+
+            if (mContext!=null){
+                if (feedItem.getUserName() != null) {
+                    holder.Author.setText(feedItem.getUserName());
+                    if (feedItem.getCategoryID() != null) {
+                        holder.SourceName.setText(feedItem.getCategoryID());
+                        if (feedItem.getDate() != null ) {
+                            holder.Date.setText(feedItem.getDate());
+                            if (feedItem.getImageFileUri()!=null){
+                                Picasso.with(mContext).load(feedItem.getImageFileUri())
+                                        .error(R.drawable.breaking_news)
+                                        .into(holder.Image);
+                                Config.positionFirebase=position;
+                            }
+                        } else {
+                            holder.Date.setText("");
                         }
                     } else {
-                        holder.Date.setText("");
+                        holder.Description.setText("");
+                        holder.SourceName.setText("");
                     }
                 } else {
-                    holder.Description.setText("");
-                    holder.SourceName.setText("");
+                    holder.Author.setText("");
                 }
-            } else {
-                holder.Author.setText("");
             }
+
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
