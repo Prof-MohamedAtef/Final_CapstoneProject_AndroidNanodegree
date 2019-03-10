@@ -29,8 +29,6 @@ public class UrgentWidgetService extends IntentService {
     public static final String ACTION_Urgent=
             "com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.ShowUrgent";
 
-
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent!=null){
