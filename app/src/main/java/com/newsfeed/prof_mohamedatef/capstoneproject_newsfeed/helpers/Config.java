@@ -61,7 +61,7 @@ public class Config {
     public static AppDatabase mDatabase;
     public static LinearLayout LinearUiIdentifier;
     public static NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted;
-    public static String Listener;
+    public static String WebHoseListener;
     public static PublishToNewsFeed POSTActivity;
     public static AccessToken FBAccessToken;
     public static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseDataHolder FirebaseDataHolder;
@@ -79,4 +79,9 @@ public class Config {
     public static int positionFirebase;
     public static int positionWebHose;
     public static String ArticlesEntity_Obj;
+    public static NewsApiFragment onNewsUrgentTaskCompleted;
+    public static String NewsApiUrgentListener;
+    public static String NewsAPIListener;
+    public static LinearLayout LinearMasterDetailFlow;
+    public static LinearLayout LinearArticleViewer;
 }

@@ -34,7 +34,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.BuildConfig;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NewsApiFragment;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NoInternetFragment;
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.WebhoseApiFragment;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.AppExecutors;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
@@ -73,7 +72,6 @@ NoInternetFragment.onReloadInternetServiceListener,
     String apiKey,token;
     NewsApiFragment newsApiFragment;
     NoInternetFragment noInternetFragment;
-    WebhoseApiFragment webhoseApiFragment;
     public static String POLITICS="Politics";
     public static String ARTS="arts";
     public static String SPORTS="Sports";
@@ -147,7 +145,6 @@ NoInternetFragment.onReloadInternetServiceListener,
         newsApiFragment=new NewsApiFragment();
         noInternetFragment=new NoInternetFragment();
         snackBarLauncher=new SnackBarClassLauncher();
-        webhoseApiFragment=new WebhoseApiFragment();
         webServiceNewsApi=new Bundle();
         webServiceWebHose=new Bundle();
         toolbar = (Toolbar) findViewById(R.id.toolbar);

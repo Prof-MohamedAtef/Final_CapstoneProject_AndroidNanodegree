@@ -166,9 +166,9 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
             this.linearLayout=(LinearLayout)converview.findViewById(R.id.linearLayout);
             this.browser= (WebView) converview.findViewById(R.id.webview);
 
-            if (Config.FragmentNewsApiNum==11){
-                Image.setVisibility(View.GONE);
-            }
+//            if (Config.FragmentNewsApiNum==11){
+//                Image.setVisibility(View.GONE);
+//            }
         }
     }
 }

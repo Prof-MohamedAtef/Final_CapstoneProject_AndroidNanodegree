@@ -41,10 +41,10 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NewsApiFragment.NewsApiUrgentListenet_KEY;
 
 /**
- * Created by Prof-Mohamed Atef on 1/3/2019.
+ * Created by Prof-Mohamed Atef on 3/10/2019.
  */
 
-public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<ArticlesEntity>> {
+public class UrgentAsyncTask extends AsyncTask<String, Void, ArrayList<ArticlesEntity>> {
 
     private final String LOG_TAG = NewsApiAsyncTask.class.getSimpleName();
     private AppDatabase mDatabase;
@@ -53,7 +53,6 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     public JSONObject ArticlesJson;
     public JSONArray ArticlesDataArray;
     public JSONObject oneArticleData;
-    private ArrayList<ArticlesEntity> articlesEntityArrayList = new ArrayList<ArticlesEntity>();
 
     String MAIN_LIST = "articles";
     String SOURCE = "source";
@@ -73,13 +72,13 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     private String URL_TO_IMAGE_STR;
     private String PUBLISHED_AT_STR;
 
-
-    public OnNewsTaskCompleted onNewsTaskCompleted;
+    OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted;
     Context mContext;
     private Activity activity;
+    private ArrayList<ArticlesEntity> articlesEntityUrgentList = new ArrayList<>();
 
-    public NewsApiAsyncTask(AppDatabase database, OnNewsTaskCompleted onTaskCompleted, Context context, String Category) {
-        this.onNewsTaskCompleted = onTaskCompleted;
+    public UrgentAsyncTask(AppDatabase database, OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted, Context context, String Category) {
+        this.onNewsUrgentTaskCompleted = onNewsUrgentTaskCompleted;
         dialog = new ProgressDialog(context);
         mContext = context;
         this.mDatabase = database;
@@ -295,8 +294,8 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     protected void onPostExecute(ArrayList<ArticlesEntity> result) {
         super.onPostExecute(result);
         if (result != null) {
-            if (onNewsTaskCompleted != null) {
-                onNewsTaskCompleted.onNewsApiTaskCompleted(result);
+            if (onNewsUrgentTaskCompleted != null) {
+                onNewsUrgentTaskCompleted.onNewsUrgentApiTaskCompleted(result);
                 if (activity != null && !activity.isFinishing()) {
                     if (dialog != null) {
                         if (dialog.isShowing()) {
@@ -313,7 +312,7 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
     private ArrayList<ArticlesEntity> getArticlesJson(String Articles_JsonSTR) throws JSONException {
         ArticlesJson = new JSONObject(Articles_JsonSTR);
         ArticlesDataArray = ArticlesJson.getJSONArray(MAIN_LIST);
-        articlesEntityArrayList.clear();
+        articlesEntityUrgentList.clear();
         for (int i = 0; i < ArticlesDataArray.length(); i++) {
             oneArticleData = ArticlesDataArray.getJSONObject(i);
             AUTHOR_STR = oneArticleData.getString(AUTHOR);
@@ -340,17 +339,17 @@ public class NewsApiAsyncTask extends AsyncTask <String, Void, ArrayList<Article
                 Name_STR = "";
             }
             articlesEntity = new ArticlesEntity(AUTHOR_STR, TITLE_STR, DESCRIPTION_STR, URL_STR, URL_TO_IMAGE_STR, PUBLISHED_AT_STR, Name_STR);
-            articlesEntityArrayList.add(articlesEntity);
+            articlesEntityUrgentList.add(articlesEntity);
         }
-
-        if (articlesEntityArrayList.size() > 0) {
-            InsertClass insertClass = new InsertClass();
-            insertClass.TryInsertNewsAPIData(mDatabase, articlesEntityArrayList, onNewsTaskCompleted, KEY);
+        InsertClass insertClass = new InsertClass();
+        if (articlesEntityUrgentList.size() > 0) {
+            insertClass.TryInsertNewsAPIData(mDatabase, articlesEntityUrgentList, onNewsUrgentTaskCompleted, KEY);
         }
-        return articlesEntityArrayList;
+        return articlesEntityUrgentList;
     }
 
-    public interface OnNewsTaskCompleted {
-        void onNewsApiTaskCompleted(ArrayList<ArticlesEntity> result);
+    public interface OnNewsUrgentTaskCompleted {
+        void onNewsUrgentApiTaskCompleted(ArrayList<ArticlesEntity> result);
     }
+
 }

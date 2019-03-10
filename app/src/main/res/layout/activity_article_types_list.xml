@@ -28,7 +28,7 @@
             android:scaleType = "centerCrop"
             android:layout_height="@dimen/AppBarLayout_height"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:src="@drawable/stanly" />
+            android:src="@drawable/breaking_news" />
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_marginLeft="@dimen/list_toolbar_side_margin"

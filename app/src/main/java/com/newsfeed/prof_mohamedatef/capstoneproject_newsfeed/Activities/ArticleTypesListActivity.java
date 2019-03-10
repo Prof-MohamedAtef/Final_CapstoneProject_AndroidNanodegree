@@ -70,15 +70,12 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
     public static final String Frags_KEY="frags";
     private String SoundFrag_KEY="Sound";
     private String ArticleFrag_KEY="Article";
-
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    Snackbar snackbar;
+    SnackBarClassLauncher snackBarLauncher;
     private int Activity_Num=1;
     NoInternetFragment noInternetFragment;
     @BindView(R.id.master_list_fragment)
     FrameLayout master_list_fragment;
-    private boolean ContentProviderHasData;
-    public static String Firebase_KEY="Firebase_KEY";
-    public static String Flag_KEY="flag";
     public static String CATEGORY_NAME="CATEGORY_NAME";
     private Toolbar mToolbar;
     private FragmentSoundPlayer fragmentSoundPlayer;
@@ -313,11 +310,6 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
                     .commit();
         }
     }
-
-    Snackbar snackbar;
-    SnackBarClassLauncher snackBarLauncher;
-
-
 
     @Override
     public void onFirebaseArticleSelected(FirebaseDataHolder firebaseDataHolder, boolean TwoPane, int position) {

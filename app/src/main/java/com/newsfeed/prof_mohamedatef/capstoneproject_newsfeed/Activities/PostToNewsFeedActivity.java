@@ -48,12 +48,9 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.F
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseHelper;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.FirebaseImageHelper;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.InsertLocallyFirebaseAsyncTask;
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Network.SnackBarClassLauncher;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Network.VerifyConnection;
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.OptionsEntity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Dao.ArticlesDao;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Helpers.InsertClass;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.SessionManagement;
@@ -270,7 +267,7 @@ public class PostToNewsFeedActivity extends AppCompatActivity implements View.On
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             getPermissionToRecordAudio();
         }
-        Config.Listener=KEY_FIREBASE;
+        Config.WebHoseListener =KEY_FIREBASE;
 //        POSTActivity=this;
         mRoomDatabase =new AppDatabase() {
             @Override

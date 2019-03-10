@@ -2,7 +2,6 @@ package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAs
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
@@ -15,6 +14,7 @@ import java.util.List;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.NEWSAPI_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.WebHoseAPIKEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NewsApiFragment.KEY_Urgent;
+import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.NewsApiFragment.NewsApiUrgentListenet_KEY;
 
 
 /**
@@ -23,8 +23,9 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.N
 
 public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
-    private final WebHoseApiAsyncTask.OnWebHoseTaskCompleted onWebHoseNewsTaskCompleted;
-    private String NULL_KEY="Someone";
+    private WebHoseApiAsyncTask.OnWebHoseTaskCompleted onWebHoseNewsTaskCompleted;
+    private UrgentAsyncTask.OnNewsUrgentTaskCompleted onUrgentNewsTaskCompleted;
+    public static String NULL_KEY="Someone";
 
     private ArticlesEntity articlesEntity;
     private ArrayList<ArticlesEntity> ArticlesEntityList;
@@ -38,19 +39,23 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... voids) {
         final boolean[] Inserted = {false};
         articlesRoomList = appDatabase.articlesDao().getArticlesDataByCategory(CategoryKey);
-        if (Config.Listener.equals(NEWSAPI_KEY)) {
-            articlesRoomList.observe((LifecycleOwner) onNewsTaskCompleted, existingArticles -> {
-                DeleteInsertOperations(Inserted, existingArticles, onNewsTaskCompleted, null);
+        if (onUrgentNewsTaskCompleted!=null) {
+            articlesRoomList.observe((LifecycleOwner) onUrgentNewsTaskCompleted, existingArticles -> {
+                DeleteInsertOperations(Inserted, existingArticles, null, null, onUrgentNewsTaskCompleted);
             });
-        } else if (Config.Listener.equals(WebHoseAPIKEY)) {
+        } else if (onNewsTaskCompleted!=null) {
+            articlesRoomList.observe((LifecycleOwner) onNewsTaskCompleted, existingArticles -> {
+                DeleteInsertOperations(Inserted, existingArticles, onNewsTaskCompleted, null, null);
+            });
+        } else if (onWebHoseNewsTaskCompleted!=null) {
             articlesRoomList.observe((LifecycleOwner) onWebHoseNewsTaskCompleted, existingArticles -> {
-                DeleteInsertOperations(Inserted, existingArticles, null, onWebHoseNewsTaskCompleted);
+                DeleteInsertOperations(Inserted, existingArticles, null, onWebHoseNewsTaskCompleted, null);
             });
         }
         return Inserted[0];
     }
 
-    private void DeleteInsertOperations(boolean[] inserted, List<ArticlesEntity> existingArticles, NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted, WebHoseApiAsyncTask.OnWebHoseTaskCompleted onWebHoseTaskCompleted) {
+    private void DeleteInsertOperations(boolean[] inserted, List<ArticlesEntity> existingArticles, NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted, WebHoseApiAsyncTask.OnWebHoseTaskCompleted onWebHoseTaskCompleted, UrgentAsyncTask.OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted) {
         if (onNewsTaskCompleted!=null){
             if (existingArticles!=null&&existingArticles.size()>0&&!existingArticles.isEmpty()){
                 int deleted=appDatabase.articlesDao().deleteByCATEGORY(CategoryKey);
@@ -75,7 +80,7 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 inserted[0] =IsArrayInserted();
                 if (inserted[0]){
                     inserted[0] =true;
-                    articlesRoomList.removeObservers((LifecycleOwner) onWebHoseTaskCompleted);
+                    articlesRoomList.removeObservers((LifecycleOwner) onNewsTaskCompleted);
                 }else {
                     inserted[0] =false;
                 }
@@ -105,6 +110,35 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 if (inserted[0]){
                     inserted[0] =true;
                     articlesRoomList.removeObservers((LifecycleOwner) onWebHoseTaskCompleted);
+                }else {
+                    inserted[0] =false;
+                }
+            }
+        }else if (onNewsUrgentTaskCompleted!=null){
+            if (existingArticles!=null&&existingArticles.size()>0&&!existingArticles.isEmpty()){
+                int deleted=appDatabase.articlesDao().deleteByCATEGORY(CategoryKey);
+                if (deleted>0){
+                    inserted[0] =IsArrayInserted();
+                    if (inserted[0]){
+                        inserted[0] =true;
+                        articlesRoomList.removeObservers((LifecycleOwner) onNewsUrgentTaskCompleted);
+                    }else {
+                        inserted[0] =false;
+                    }
+                }else {
+                    inserted[0] =IsArrayInserted();
+                    if (inserted[0]){
+                        inserted[0] =true;
+                        articlesRoomList.removeObservers((LifecycleOwner) onNewsUrgentTaskCompleted);
+                    }else {
+                        inserted[0] =false;
+                    }
+                }
+            }else {
+                inserted[0] =IsArrayInserted();
+                if (inserted[0]){
+                    inserted[0] =true;
+                    articlesRoomList.removeObservers((LifecycleOwner) onNewsUrgentTaskCompleted);
                 }else {
                     inserted[0] =false;
                 }
@@ -179,10 +213,12 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean aBoolean) {
         super.onPostExecute(aBoolean);
         if (aBoolean != null) {
-            if (aBoolean == true && Config.Listener.equals(NEWSAPI_KEY)) {
+            if (onNewsTaskCompleted!=null) {
                 onNewsTaskCompleted.onNewsApiTaskCompleted(ArticlesEntityList_x);
-            }else if (aBoolean==true && Config.Listener.equals(WebHoseAPIKEY)){
+            }else if (onWebHoseNewsTaskCompleted!=null){
                 onWebHoseNewsTaskCompleted.onWebHoseTaskCompleted(ArticlesEntityList_x);
+            }else if (onUrgentNewsTaskCompleted!=null){
+                onUrgentNewsTaskCompleted.onNewsUrgentApiTaskCompleted(ArticlesEntityList_x);
             }
 //            else {
 //                onNewsTaskCompleted.onNewsApiTaskCompleted(ArticlesEntityList);
@@ -197,8 +233,17 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
         this.onNewsTaskCompleted=onTaskCompletes;
         this.CategoryKey=Key_Type;
         articlesEntity=new ArticlesEntity();
-        this.onWebHoseNewsTaskCompleted = null;
-        Config.Listener=NEWSAPI_KEY;
+        Config.NewsAPIListener =NEWSAPI_KEY;
+    }
+
+    public InsertWebServiceAsyncTask(AppDatabase appDatabase, ArrayList<ArticlesEntity> articlesRoomEntityList, UrgentAsyncTask.OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted, String Key_Type) {
+        super();
+        this.appDatabase=appDatabase;
+        this.ArticlesEntityList = articlesRoomEntityList;
+        this.onUrgentNewsTaskCompleted=onNewsUrgentTaskCompleted;
+        this.CategoryKey=Key_Type;
+        articlesEntity=new ArticlesEntity();
+        Config.NewsApiUrgentListener =NewsApiUrgentListenet_KEY;
     }
 
     public InsertWebServiceAsyncTask(AppDatabase appDatabase, ArrayList<ArticlesEntity> articlesRoomEntityList, WebHoseApiAsyncTask.OnWebHoseTaskCompleted onWebHoseNewsTaskCompleted, String Key_Type) {
@@ -206,9 +251,8 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
         this.appDatabase=appDatabase;
         this.ArticlesEntityList = articlesRoomEntityList;
         this.onWebHoseNewsTaskCompleted=onWebHoseNewsTaskCompleted;
-        this.onNewsTaskCompleted=null;
         this.CategoryKey=Key_Type;
         articlesEntity=new ArticlesEntity();
-        Config.Listener=WebHoseAPIKEY;
+        Config.WebHoseListener =WebHoseAPIKEY;
     }
 }

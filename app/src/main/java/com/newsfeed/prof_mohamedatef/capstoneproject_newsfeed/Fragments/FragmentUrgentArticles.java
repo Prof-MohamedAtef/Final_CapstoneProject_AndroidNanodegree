@@ -22,6 +22,7 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.AppExecutors;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.UrgentAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Network.VerifyConnection;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
@@ -37,7 +38,7 @@ import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.
  * Created by Prof-Mohamed Atef on 2/18/2019.
  */
 
-public class FragmentUrgentArticles extends Fragment implements NewsApiAsyncTask.OnNewsUrgentTaskCompleted, NewsApiAsyncTask.OnNewsTaskCompleted {
+public class FragmentUrgentArticles extends Fragment implements UrgentAsyncTask.OnNewsUrgentTaskCompleted, NewsApiAsyncTask.OnNewsTaskCompleted {
 
     private String KEY_UrgentArray="UrgentArr";
     private String apiKey;
@@ -83,7 +84,7 @@ public class FragmentUrgentArticles extends Fragment implements NewsApiAsyncTask
         verifyConnection.checkConnection();
         URL= UrgentURL+apiKey;
         if (verifyConnection.isConnected()){
-            NewsApiAsyncTask newsApiAsyncTask=new NewsApiAsyncTask(mDatabase,this, getActivity(),KEY_Urgent);
+            UrgentAsyncTask urgentAsyncTask=new UrgentAsyncTask(mDatabase, (UrgentAsyncTask.OnNewsUrgentTaskCompleted) this, getActivity(),KEY_Urgent);
             newsApiAsyncTask.execute(URL);
         }else {
 

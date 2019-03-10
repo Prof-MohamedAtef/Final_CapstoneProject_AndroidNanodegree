@@ -85,9 +85,9 @@
         <!-- </receiver> -->
 
 
-        <!-- <service -->
-        <!-- android:name=".helpers.Services.UrgentWidgetService" -->
-        <!-- android:enabled="true" /> -->
+         <service
+         android:name=".helpers.Services.UrgentWidgetService"
+         android:enabled="true" />
 
         <activity android:name=".Activities.WebViewerActivity" />
         <activity

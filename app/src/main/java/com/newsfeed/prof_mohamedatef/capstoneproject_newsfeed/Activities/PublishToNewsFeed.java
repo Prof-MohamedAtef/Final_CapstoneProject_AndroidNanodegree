@@ -266,7 +266,7 @@ public class PublishToNewsFeed extends AppCompatActivity implements View.OnClick
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             getPermissionToRecordAudio();
         }
-        Config.Listener=KEY_FIREBASE;
+        Config.WebHoseListener =KEY_FIREBASE;
         POSTActivity=this;
         mRoomDatabase =new AppDatabase() {
             @Override

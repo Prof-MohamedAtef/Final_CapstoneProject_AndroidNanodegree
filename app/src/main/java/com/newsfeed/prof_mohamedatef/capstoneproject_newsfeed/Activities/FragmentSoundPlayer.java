@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.OtherTypes_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleTypesListActivity.TwoPANEExtras_KEY;
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.PublishToNewsFeed.KEY_FIREBASE;
+import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.InsertWebServiceAsyncTask.NULL_KEY;
 
 /**
  * Created by Prof-Mohamed Atef on 1/10/2019.
@@ -211,8 +212,10 @@ public class FragmentSoundPlayer extends Fragment implements View.OnClickListene
 
     private void DisplayData(String audioString) {
         if (audioString!=null) {
-            AudioUri = Uri.parse(audioString);
-            Config.AudioUri=AudioUri;
+            if (!audioString.equals(NULL_KEY)){
+                AudioUri = Uri.parse(audioString);
+                Config.AudioUri=AudioUri;
+            }
         }
         if (AudioUri!=null){
             linearLayoutPlay.setVisibility(View.VISIBLE);

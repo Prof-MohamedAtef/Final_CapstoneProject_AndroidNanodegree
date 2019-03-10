@@ -1,10 +1,12 @@
 package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Helpers.InsertClass;
@@ -57,6 +59,7 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
     private ArticlesEntity articlesEntity;
     private String TEXT="text";
     private String TEXT_STR;
+    private Activity activity;
 
 
     @Override
@@ -376,16 +379,22 @@ public class WebHoseApiAsyncTask extends AsyncTask<String, Void, ArrayList<Artic
     protected void onPreExecute() {
         super.onPreExecute();
         try{
+            dialog.setOwnerActivity((Activity) mContext);
+            activity=dialog.getOwnerActivity();
             if (dialog!=null&&dialog.isShowing()){
                 this.dialog.dismiss();
             }else {
                 if (dialog!= null){
                     dialog.dismiss();
                     this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
-                    this.dialog.show();
+                    if (!activity.isFinishing()){
+                        this.dialog.show();
+                    }
                 }else {
                     this.dialog.setMessage(mContext.getResources().getString(R.string.loading));
-                    this.dialog.show();
+                    if (!activity.isFinishing()){
+                        this.dialog.show();
+                    }
                 }
             }
         }catch (Exception e){

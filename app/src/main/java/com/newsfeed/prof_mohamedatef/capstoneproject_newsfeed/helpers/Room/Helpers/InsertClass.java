@@ -7,6 +7,7 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Firebase.F
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.InsertLocallyFirebaseAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.InsertWebServiceAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.UrgentAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.WebHoseApiAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
@@ -28,6 +29,11 @@ public class InsertClass {
 
     public void TryInsertNewsAPIData(AppDatabase mDatabase, ArrayList<ArticlesEntity> list, NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted, String key) {
         InsertWebServiceAsyncTask insertWebServiceAsyncTask =new InsertWebServiceAsyncTask(mDatabase,list,onNewsTaskCompleted,key);
+        insertWebServiceAsyncTask.execute();
+    }
+
+    public void TryInsertNewsAPIData(AppDatabase mDatabase, ArrayList<ArticlesEntity> list, UrgentAsyncTask.OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted, String key) {
+        InsertWebServiceAsyncTask insertWebServiceAsyncTask =new InsertWebServiceAsyncTask(mDatabase,list,onNewsUrgentTaskCompleted,key);
         insertWebServiceAsyncTask.execute();
     }
 

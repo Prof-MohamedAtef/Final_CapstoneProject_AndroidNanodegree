@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.UrgentAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.SecurityManager.GenericConnect;
 
@@ -29,7 +30,6 @@ public class LatestNewsFireBJobService extends com.firebase.jobdispatcher.JobSer
     private String KEY;
     private ProgressDialog dialog;
     public NewsApiAsyncTask.OnNewsTaskCompleted onNewsTaskCompleted;
-    NewsApiAsyncTask.OnNewsUrgentTaskCompleted onNewsUrgentTaskCompleted;
     Context mContext;
     private AsyncTask mBackgroundTask;
 

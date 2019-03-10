@@ -25,6 +25,7 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.R;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.AppExecutors;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.NewsApiAsyncTask;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.GenericAsyncTask.UrgentAsyncTask;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.JobDispatcher.JobDispatcherReminder;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Network.SnackBarClassLauncher;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Network.VerifyConnection;
@@ -32,6 +33,7 @@ import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.OptionsEnt
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.AppDatabase;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.ArticlesEntity;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Room.Dao.ArticlesDao;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Services.UrgentWidgetService;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.SessionManagement;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.ViewModel.UrgentArticlesViewModel;
 
@@ -42,13 +44,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.PosNewsFragment;
-import static com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config.mContext;
 
 /**
  * Created by Prof-Mohamed Atef on 1/3/2019.
  */
 
-public class NewsApiFragment extends Fragment implements NewsApiAsyncTask.OnNewsTaskCompleted,
+public class NewsApiFragment extends Fragment implements UrgentAsyncTask.OnNewsUrgentTaskCompleted,
 SnackBarLauncher{
 
     SnackBarClassLauncher snackBarLauncher;
@@ -72,6 +73,7 @@ SnackBarLauncher{
     private AppExecutors mAppExecutors;
     private LiveData<List<ArticlesEntity>> UrgentArticlesListLiveData;
     private NoInternetFragment noInternetFragment;
+    public static String NewsApiUrgentListenet_KEY ="NewsApiUrgentListenet_KEY";
 
 
     public void initializeViewModel(){
@@ -114,8 +116,8 @@ SnackBarLauncher{
         VerifyConnection verifyConnection=new VerifyConnection(getActivity());
         verifyConnection.checkConnection();
         if (verifyConnection.isConnected()){
-            NewsApiAsyncTask newsApiAsyncTask=new NewsApiAsyncTask(mDatabase,this, getActivity(),KEY_Urgent);
-            newsApiAsyncTask.execute(URL);
+            UrgentAsyncTask urgentAsyncTask=new UrgentAsyncTask(mDatabase,this, getActivity(),KEY_Urgent);
+            urgentAsyncTask.execute(URL);
         }else {
             initializeViewModel();
         }
@@ -156,7 +158,7 @@ SnackBarLauncher{
         Config.CategoryName=KEY_Urgent;
         Config.mContext=getActivity();
         Config.NewsApiFragment=this;
-        Config.onNewsTaskCompleted=this;
+        Config.onNewsUrgentTaskCompleted=this;
         connectToApi();
         JobDispatcherReminder.scheduleFetchReminder(getActivity());
     }
@@ -190,8 +192,19 @@ SnackBarLauncher{
         outState.putInt(KEY_POSITION_MainFragment,Config.PosNewsFragment);
     }
 
+    private void PopulateUrgentArticles(List<ArticlesEntity> result) {
+        NewsApiRecyclerAdapter mAdapter=new NewsApiRecyclerAdapter(getActivity(),result, TwoPane);
+        mAdapter.notifyDataSetChanged();
+        mLayoutManager=new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.smoothScrollToPosition(PosNewsFragment);
+        snackBarLauncher.SnackBarLoadedData(Config.LinearUiIdentifier,Config.mContext);
+    }
+
     @Override
-    public void onNewsApiTaskCompleted(ArrayList<ArticlesEntity> result) {
+    public void onNewsUrgentApiTaskCompleted(ArrayList<ArticlesEntity> result) {
         if (result!=null){
             if (result.size()>0){
                 PopulateUrgentArticles(result);
@@ -203,18 +216,8 @@ SnackBarLauncher{
                 UrgentOneLine+=UrgentTextLines+".\n";
             }
             sessionManagement.createUrgentIntoPrefs(UrgentOneLine);
+            UrgentWidgetService.startActionFillWidget(getActivity());
         }
-    }
-
-    private void PopulateUrgentArticles(List<ArticlesEntity> result) {
-        NewsApiRecyclerAdapter mAdapter=new NewsApiRecyclerAdapter(getActivity(),result, TwoPane);
-        mAdapter.notifyDataSetChanged();
-        mLayoutManager=new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.smoothScrollToPosition(PosNewsFragment);
-        snackBarLauncher.SnackBarLoadedData(Config.LinearUiIdentifier,Config.mContext);
     }
 
 
