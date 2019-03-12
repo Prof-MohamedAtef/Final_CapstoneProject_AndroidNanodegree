@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key_news'
+            keyPassword 'Nemo123456789'
+            storeFile file('keystore.jks')
+            storePassword 'Nemo123456789'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed"
@@ -22,6 +30,7 @@ android {
             resValue 'string', "api_key", myApiKey
             buildConfigField 'String', "token", token
             resValue 'string', "token", token
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
@@ -30,6 +39,7 @@ android {
             resValue 'string', "api_key", myApiKey
             buildConfigField 'String', "token", token
             resValue 'string', "token", token
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
