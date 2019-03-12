@@ -114,7 +114,23 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (Config.ActivityNum != 0 && feedItemList != null) {
+                        ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(Config.PosNewsFragment), TwoPane, Config.PosNewsFragment);
+//                        Config.position=position;
+                    }
+                    if (Config.ActivityNum == 0) {
+                        if (articlesEntity.getARTICLE_URL() != null) {
+                            String url = articlesEntity.getARTICLE_URL();
+                            Intent intent = new Intent(mContext, WebViewerActivity.class);
+                            intent.putExtra(URL_KEY, url);
+                            mContext.startActivity(intent);
+                        }
+                    } else {
+                        /*
+                        Do nothing
+                         */
+                        Log.e(LOG_TAG, NOTHING_TODO);
+                    }
                 }
             });
         }
@@ -125,7 +141,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
         return (null != feedItemList ? feedItemList.size() : 0);
     }
 
-    class ViewHOlder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHOlder extends RecyclerView.ViewHolder {
 
         protected LinearLayout linearLayout;
         protected TextView Title;
@@ -153,29 +169,6 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
 //            if (Config.FragmentNewsApiNum==11){
 //                Image.setVisibility(View.GONE);
 //            }
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (v==linearLayout){
-                if (Config.ActivityNum != 0 && feedItemList != null) {
-                    ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(Config.PosNewsFragment), TwoPane, Config.PosNewsFragment);
-//                        Config.position=position;
-                }
-                if (Config.ActivityNum == 0) {
-                    if (articlesEntity.getARTICLE_URL() != null) {
-                        String url = articlesEntity.getARTICLE_URL();
-                        Intent intent = new Intent(mContext, WebViewerActivity.class);
-                        intent.putExtra(URL_KEY, url);
-                        mContext.startActivity(intent);
-                    }
-                } else {
-                        /*
-                        Do nothing
-                         */
-                    Log.e(LOG_TAG, NOTHING_TODO);
-                }
-            }
         }
     }
 }
