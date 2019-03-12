@@ -10,9 +10,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:nextFocusDown="@id/fragment_urgent"
         android:theme="@style/Theme.BackButtonTheme"
-        android:layout_marginLeft="@dimen/list_toolbar_side_margin"
+        android:layout_marginStart="@dimen/list_toolbar_side_margin"
         android:layout_marginRight="@dimen/list_toolbar_side_margin"
+        android:layout_marginLeft="@dimen/list_toolbar_side_margin"
+        android:layout_marginEnd="@dimen/list_toolbar_side_margin"
         android:layout_height="?actionBarSize"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
@@ -22,6 +25,8 @@
     <FrameLayout
         android:layout_margin="@dimen/toolbar_padding"
         android:layout_gravity="center_horizontal|center_vertical"
+        android:nextFocusUp="@id/toolbar"
+        android:nextFocusDown="@id/master_list_fragment"
         android:id="@+id/fragment_urgent"
         android:background="@color/icons"
         android:layout_width="match_parent"
@@ -37,6 +42,8 @@
         android:layout_weight="6"
         android:id="@+id/LinearMasterContainerTwoPane">
         <FrameLayout
+            android:nextFocusRight="@id/Audio_container"
+            android:nextFocusUp="@id/fragment_urgent"
             android:layout_margin="@dimen/layout_margins"
             android:background="@color/icons"
             android:layout_width="0dp"
@@ -56,8 +63,10 @@
             android:background="@color/icons"
             android:orientation="vertical">
             <FrameLayout
+                android:nextFocusLeft="@id/master_list_fragment"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:id="@+id/Audio_container"
+                android:nextFocusDown="@id/Article_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
@@ -67,6 +76,7 @@
                 android:layout_height="2dp"
                 android:background="@color/primaryDarkColor"/>
             <FrameLayout
+                android:nextFocusUp="@id/Audio_container"
                 android:id="@+id/Article_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

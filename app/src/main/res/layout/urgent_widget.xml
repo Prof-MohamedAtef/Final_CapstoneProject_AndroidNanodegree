@@ -7,10 +7,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/text_small"
         android:contentDescription="@string/appwidget_text"
         android:text="@string/appwidget_text"
         android:textColor="@color/primaryLightColor"
-        android:textSize="24sp"
+        android:textSize="@dimen/fab_margin"
         android:textStyle="bold|italic" />
 </RelativeLayout>

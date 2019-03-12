@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.Widget.UrgentWidgetProvider;
+import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Widget.UrgentWidgetProvider;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.Config;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.helpers.SessionManagement;
 

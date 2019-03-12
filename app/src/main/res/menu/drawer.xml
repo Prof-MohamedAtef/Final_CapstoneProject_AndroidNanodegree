@@ -4,17 +4,20 @@
         <item
             android:id="@+id/publish"
             android:checked="false"
+            android:contentDescription="@string/publish"
             android:state_focused="true"
             android:state_pressed="true"
             android:title="@string/publish" />
         <!--android:icon="@drawable/news"-->
         <item
+            android:contentDescription="@string/urgent_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/urgent"
             android:checked="false"
             android:title="@string/urgent_news" />
         <item
+            android:contentDescription="@string/political_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/politics"
@@ -22,6 +25,7 @@
             android:title="@string/political_news" />
         <!--android:icon="@drawable/news"-->
         <item
+            android:contentDescription="@string/art_cultutral_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/art_culture"
@@ -29,6 +33,7 @@
             android:title="@string/art_cultutral_news" />
         <!--android:icon="@drawable/stadiums"-->
         <item
+            android:contentDescription="@string/sports_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/sports"
@@ -36,6 +41,7 @@
             android:title="@string/sports_news" />
         <!--android:icon="@drawable/groups"-->
         <item
+            android:contentDescription="@string/reports_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/reports"
@@ -52,12 +58,14 @@
         android:background="@color/divider" />
     <group android:checkableBehavior="all">
         <item
+            android:contentDescription="@string/technology_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/technology"
             android:checked="false"
             android:title="@string/technology_news" />
         <item
+            android:contentDescription="@string/business_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/business"
@@ -74,24 +82,28 @@
         android:background="@color/divider"/>
     <group android:checkableBehavior="all">
         <item
+            android:contentDescription="@string/food_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/food"
             android:checked="false"
             android:title="@string/food_news" />
         <item
+            android:contentDescription="@string/famiy_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/family"
             android:checked="false"
             android:title="@string/famiy_news" />
         <item
+            android:contentDescription="@string/heritage_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/heritage"
             android:checked="false"
             android:title="@string/heritage_news" />
         <item
+            android:contentDescription="@string/opinions_news"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/opinions"
@@ -107,6 +119,7 @@
         android:background="@color/divider"/>
     <group android:checkableBehavior="all">
         <item
+            android:contentDescription="@string/logout"
             android:state_focused="true"
             android:state_pressed="true"
             android:id="@+id/logout"

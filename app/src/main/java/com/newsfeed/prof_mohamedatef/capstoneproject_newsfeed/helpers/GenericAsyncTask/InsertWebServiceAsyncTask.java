@@ -136,7 +136,7 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }else {
                 inserted[0] =IsArrayInserted();
-                if (inserted[0]){
+                    if (inserted[0]){
                     inserted[0] =true;
                     articlesRoomList.removeObservers((LifecycleOwner) onNewsUrgentTaskCompleted);
                 }else {
@@ -220,9 +220,6 @@ public class InsertWebServiceAsyncTask extends AsyncTask<Void, Void, Boolean> {
             }else if (onUrgentNewsTaskCompleted!=null){
                 onUrgentNewsTaskCompleted.onNewsUrgentApiTaskCompleted(ArticlesEntityList_x);
             }
-//            else {
-//                onNewsTaskCompleted.onNewsApiTaskCompleted(ArticlesEntityList);
-//            }
         }
     }
 

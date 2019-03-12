@@ -3,16 +3,15 @@ package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities;
 import android.app.ActivityOptions;
 import android.arch.lifecycle.LiveData;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.ImageButton;
+
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.BuildConfig;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.ArticlesMasterListFragment;
 import com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Fragments.FragmentArticleViewer;
@@ -150,11 +149,20 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
                 finish();
             }
         });
+        requestHomeButtonFocus(mToolbar);
         if (findViewById(R.id.coordinator_layout_twoPane)!=null) {
             mTwoPaneUi = true;
         } else {
             mTwoPaneUi = false;
+            master_list_fragment.setFocusable(true);
+            mToolbar.setFocusable(true);
+            if (master_list_fragment.isFocused()){
+                master_list_fragment.setNextFocusUpId(mToolbar.getId());
+            }else if (mToolbar.isFocused()){
+                mToolbar.setNextFocusDownId(master_list_fragment.getId());
+            }
         }
+
         Config.ActivityNum=Activity_Num;
         token= BuildConfig.token;
         apiKey= BuildConfig.ApiKey;
@@ -253,7 +261,23 @@ public class ArticleTypesListActivity extends AppCompatActivity implements
                     .replace(R.id.fragment_urgent, fragmentUrgentArticles, Frags_KEY)
                         .commit();
         }
+
+
+
     }
+
+    private void requestHomeButtonFocus(Toolbar mToolbar) {
+        if (mToolbar!=null){
+            int ChildrenCount=mToolbar.getChildCount();
+            for (int i=0;  i<ChildrenCount; i++){
+                if (mToolbar.getChildAt(i) instanceof ImageButton){
+                    mToolbar.getChildAt(i).requestFocus();
+                    break;
+                }
+            }
+        }
+    }
+
 
     @Override
     public void onArticleSelected(ArticlesEntity articlesEntity, boolean TwoPane, int position) {

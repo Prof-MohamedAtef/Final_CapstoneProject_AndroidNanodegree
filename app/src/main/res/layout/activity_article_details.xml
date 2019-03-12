@@ -19,8 +19,8 @@
         android:id="@+id/collabsing_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/Overlap_top"
-        app:expandedTitleMarginEnd="64dp"
-        app:expandedTitleMarginStart="48dp"
+        app:expandedTitleMarginEnd="@dimen/CollapsingToolbarMArginleft"
+        app:expandedTitleMarginStart="@dimen/CollapsingToolbarMArginright"
         app:layout_scrollFlags="scroll|enterAlways">
         <ImageView
             android:id="@+id/Article_MainImage"
@@ -32,8 +32,10 @@
             android:layout_gravity="center_vertical|center_horizontal" />
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:layout_marginStart="@dimen/list_toolbar_side_margin"
             android:layout_marginLeft="@dimen/list_toolbar_side_margin"
             android:layout_marginRight="@dimen/list_toolbar_side_margin"
+            android:layout_marginEnd="@dimen/list_toolbar_side_margin"
             android:layout_height="?actionBarSize"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
@@ -56,12 +58,15 @@
         android:orientation="vertical"
         tools:context="com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.ArticleDetailsActivity">
         <FrameLayout
+            android:nextFocusUp="@id/toolbar"
+            android:nextFocusDown="@id/Audio_container"
             android:id="@+id/Article_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:scaleType="centerInside"/>
         <FrameLayout
+            android:nextFocusUp="@id/Article_container"
             android:id="@+id/Audio_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

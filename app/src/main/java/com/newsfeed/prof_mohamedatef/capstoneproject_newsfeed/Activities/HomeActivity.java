@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +107,7 @@ NoInternetFragment.onReloadInternetServiceListener,
     private FirebaseAuth mAuth;
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+    private FrameLayout container_frame;
 //    RelativeLayout home_linear;
 
 
@@ -117,6 +119,7 @@ NoInternetFragment.onReloadInternetServiceListener,
         Config.ActivityNum=Activity_Num;
         apiKey= BuildConfig.ApiKey;
         token= BuildConfig.token;
+        container_frame=(FrameLayout)findViewById(R.id.container_frame);
         VerifyConnection verifyConnection=new VerifyConnection(getApplicationContext());
         if (verifyConnection.isConnected()){
             mAuth=FirebaseAuth.getInstance();
@@ -295,20 +298,37 @@ NoInternetFragment.onReloadInternetServiceListener,
 //                return false;
 //            }
 //
+
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
+//                container_frame.requestFocus();
 
             }
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
+//                drawerLayout.requestFocus();
             }
+
+            @Override
+            public boolean isDrawerIndicatorEnabled() {
+                return super.isDrawerIndicatorEnabled();
+
+            }
+
+
         };
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        if (actionBarDrawerToggle.isDrawerIndicatorEnabled()){
+//            drawerLayout.requestFocus();
+        }
         //Setting the actionbarToggle to drawer layout
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
         SnackBasedConnection();

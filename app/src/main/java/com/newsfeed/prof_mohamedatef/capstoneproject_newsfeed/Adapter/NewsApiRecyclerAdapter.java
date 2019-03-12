@@ -42,6 +42,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     Context mContext;
     List<ArticlesEntity> feedItemList;
     boolean TwoPane;
+    public static ArticlesEntity articlesEntity;
 
     public static String NOTHING_TODO="NoTHING_TODO";
     private String NULL_KEY="null";
@@ -64,6 +65,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
     public void onBindViewHolder(@NonNull final ViewHOlder holder, final int position) {
         if (feedItemList != null && feedItemList.size() > 0) {
             final ArticlesEntity feedItem = feedItemList.get(position);
+            articlesEntity=feedItem;
             if (mContext!=null){
                 if (feedItem.getAUTHOR() != null && feedItem.getTITLE() != null) {
                     if (feedItem.getAUTHOR().equals(NULL_KEY)) {
@@ -112,25 +114,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // if two pane ---- > Web View
-                    // if PHone --------> Web View
-                    if (Config.ActivityNum != 0 && feedItemList != null) {
-                        ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(position), TwoPane, position);
-//                        Config.position=position;
-                    }
-                    if (Config.ActivityNum == 0) {
-                        if (feedItem.getARTICLE_URL() != null) {
-                            String url = feedItem.getARTICLE_URL();
-                            Intent intent = new Intent(mContext, WebViewerActivity.class);
-                            intent.putExtra(URL_KEY, url);
-                            mContext.startActivity(intent);
-                        }
-                    } else {
-                        /*
-                        Do nothing
-                         */
-                        Log.e(LOG_TAG, NOTHING_TODO);
-                    }
+
                 }
             });
         }
@@ -141,7 +125,7 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
         return (null != feedItemList ? feedItemList.size() : 0);
     }
 
-    class ViewHOlder extends RecyclerView.ViewHolder {
+    class ViewHOlder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         protected LinearLayout linearLayout;
         protected TextView Title;
@@ -169,6 +153,29 @@ public class NewsApiRecyclerAdapter extends RecyclerView.Adapter<NewsApiRecycler
 //            if (Config.FragmentNewsApiNum==11){
 //                Image.setVisibility(View.GONE);
 //            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v==linearLayout){
+                if (Config.ActivityNum != 0 && feedItemList != null) {
+                    ((ArticlesMasterListFragment.OnSelectedArticleListener) mContext).onArticleSelected(feedItemList.get(Config.PosNewsFragment), TwoPane, Config.PosNewsFragment);
+//                        Config.position=position;
+                }
+                if (Config.ActivityNum == 0) {
+                    if (articlesEntity.getARTICLE_URL() != null) {
+                        String url = articlesEntity.getARTICLE_URL();
+                        Intent intent = new Intent(mContext, WebViewerActivity.class);
+                        intent.putExtra(URL_KEY, url);
+                        mContext.startActivity(intent);
+                    }
+                } else {
+                        /*
+                        Do nothing
+                         */
+                    Log.e(LOG_TAG, NOTHING_TODO);
+                }
+            }
         }
     }
 }

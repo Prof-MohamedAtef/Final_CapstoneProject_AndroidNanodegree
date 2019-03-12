@@ -35,6 +35,8 @@
     android:layout_marginTop="30dp"
     android:layout_marginBottom="30dp" />
     <com.google.android.gms.common.SignInButton
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:id="@+id/btn_sign_in"

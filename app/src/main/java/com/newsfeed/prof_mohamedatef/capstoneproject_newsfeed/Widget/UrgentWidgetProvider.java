@@ -1,4 +1,4 @@
-package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Activities.Widget;
+package com.newsfeed.prof_mohamedatef.capstoneproject_newsfeed.Widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
