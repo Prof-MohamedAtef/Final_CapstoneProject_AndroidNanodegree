@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="190dp"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:background="@color/primaryLightColor">
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/profile_image"
+    android:contentDescription="@string/profile_img"
+    android:layout_width="@dimen/HeaderImage_width_height"
+    android:layout_height="@dimen/HeaderImage_width_height"
+    android:src="@drawable/news"
+    android:focusable="true"
+    android:nextFocusDown="@id/Email"
+
+    android:layout_marginTop="30dp"
+    android:layout_alignParentStart="true"
+    android:layout_marginStart="@dimen/HeaderImage_margin"
+    android:transitionName="@string/profile_img"/>
+<!--android:layout_centerVertical="true"-->
+
+<TextView
+    android:layout_marginStart="@dimen/view_padding"
+    android:layout_width="wrap_content"
+    android:focusable="true"
+    android:nextFocusDown="@id/UserName"
+    android:nextFocusUp="@id/profile_image"
+    android:layout_height="wrap_content"
+    android:textSize="14sp"
+    android:textColor="#FFF"
+    android:textStyle="bold"
+    android:gravity="start"
+    android:paddingBottom="4dp"
+    android:id="@+id/Email"
+    android:layout_above="@+id/email"
+    android:layout_alignStart="@+id/profile_image"/>
+
+    <TextView
+        android:layout_marginStart="@dimen/view_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:nextFocusUp="@id/Email"
+        android:textSize="14sp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:gravity="start"
+        android:paddingBottom="@dimen/text_padding"
+        android:id="@+id/UserName"
+        android:layout_alignBottom="@+id/email"
+        android:layout_alignStart="@+id/profile_image"/>
+<TextView
+    android:layout_marginStart="@dimen/view_padding"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text=""
+    android:id="@+id/email"
+    android:textSize="14sp"
+    android:textColor="#FFF"
+    android:textStyle="bold"
+    android:gravity="start"
+    android:paddingBottom="4dp"
+    android:layout_alignParentBottom="true" />
+</RelativeLayout>
